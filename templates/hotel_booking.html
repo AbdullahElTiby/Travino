@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block pagetitle %}
+    Hotels
+{% endblock pagetitle %}
+
+{% block isactiveeeeee %}
+text-red-500
+{% endblock isactiveeeeee %}
+
+{% block stylingInHead %}
+
+.hotel-card {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin: 10px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.hotel-card h3 {
+    margin-top: 0;
+}
+.hotel-card .price {
+    color: #27ae60;
+    font-weight: bold;
+}
+.hotel-card button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.hotel-card button:hover {
+    background: #2980b9;
+}
+#loading-spinner {
+    font-size: 18px;
+    color: #3498db;
+}
+
+
+{% endblock stylingInHead %}
+
+{% block maincontent %}
+<h1>Hotel Booking</h1>
+
+<div id="loading-spinner">Loading hotels...</div>
+<div id="hotels-list"></div>
+
+<script>
+    async function fetchHotels() {
+        try {
+            const response = await fetch('/api/hotels/?city=IST');
+            const data = await response.json();
+            console.log("Raw API Response:", data);  // Log the full response for debugging
+    
+            if (Array.isArray(data.hotels) && data.hotels.length > 0) {
+                displayHotels(data.hotels);
+            } else {
+                document.getElementById('hotels-list').innerText = 'No hotels found or data format is incorrect.';
+            }
+        } catch (error) {
+            console.error('Error fetching hotels:', error);
+            document.getElementById('hotels-list').innerText = 'Error fetching hotels: ' + error;
+        }
+    }
+    
+    
+    
+    
+    
+    function displayHotels(hotels) {
+        const hotelsList = document.getElementById('hotels-list');
+        hotelsList.innerHTML = '';  // Clear the "Loading" message
+    
+        hotels.forEach(hotel => {
+            const hotelCard = document.createElement('div');
+            hotelCard.classList.add('hotel-card');
+    
+            const hotelName = hotel.name || 'No name available';
+            const address = hotel.address?.countryCode || 'No address available';
+            const rating = hotel.rating || 'No rating available';
+            const latitude = hotel.geoCode?.latitude || 'N/A';
+            const longitude = hotel.geoCode?.longitude || 'N/A';
+    
+            hotelCard.innerHTML = `
+                <h3>${hotelName}</h3>
+                <p>Address: ${address}</p>
+                <p>Rating: ${rating}</p>
+                <p>Coordinates: ${latitude}, ${longitude}</p>
+                <button onclick="bookHotel('${hotel.hotelId}')">Book Now</button>
+            `;
+            hotelsList.appendChild(hotelCard);
+        });
+    }
+    
+    
+    
+
+    function bookHotel(hotelId) {
+        alert('Booking hotel with ID: ' + hotelId);
+        // Implement your booking logic here (e.g., checkout, store in database, etc.)
+    }
+
+    fetchHotels();
+</script>
+{% endblock maincontent %}

@@ -89,6 +89,8 @@
 			  position: relative;
 			  font-weight: 600;
 			}
+
+			.submenu { height: 50px; }
 		  {% block styling %}{% endblock styling %}
 	</style>
 	{% block headthings %}
@@ -97,53 +99,7 @@
 
 </head>
 <body>
-    <!-- component -->
-{% comment %} <nav class="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto">
-	<div class="md:h-16 h-28 mx-auto md:px-4 container flex items-center justify-between flex-wrap md:flex-nowrap">
-		<!-- Logo -->
-		<div class="text-red-500 md:order-1">
-			<!-- Heroicon - Chip Outline -->
-			<a href="{% url "home" %}"><img src="{% static 'app/icon png.png' %}" class="h-10 w-10"></a>
-			
-			
-			
-		</div>
-		<div class="text-gray-500 order-3 w-full md:w-auto md:order-2">
-			<ul class="flex font-semibold justify-between">
-                <!-- Active Link = text-red-500
-                Inactive Link = hover:text-red-500 -->
-				<li class="md:px-4 md:py-2 {% block isactive %}{% endblock %} hover:text-red-400"><a href="{% url "home" %}">Home</a></li>
-				<li class="md:px-4 md:py-2 {% block isactivee %}{% endblock %} hover:text-red-400"><a href="{% url "aitg" %}">AI Tour guide</a></li>
-				<li class="md:px-4 md:py-2 {% block isactiveee %}{% endblock %} hover:text-red-400"><a href="{% url "pricing" %}">Pricing</a></li>
-				<li class="md:px-4 md:py-2 {% block isactiveeee %}{% endblock %} hover:text-red-400"><a href="{% url "about" %}">About</a></li>
-				<li class="md:px-4 md:py-2 {% block isactiveeeee %}{% endblock %} hover:text-red-400"><a href="{% url "contact" %}">Contact</a></li>
-			</ul>
-		</div>
-		<div class="text-red-500 md:order-3">
-			<a href="{% url "home" %}"><img src="{% static 'app/icon png.png' %}" class="h-10 w-10"></a>	
-		</div>
-		<div class="order-4 md:order-4">
-			<a href="{% url "login" %}">
-				<button class="px-4 py-2 bg-red-500 hover:bg-red-600 text-gray-50 rounded-xl flex items-center gap-2">
-					<!-- Heroicons - Login Solid -->
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-					<path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
-					</svg>
-					
-						{% if user.is_authenticated %}
-							<a href="{% url "logout" %}"><span>Logout</span></a>
-						{% else %}
-							<a href="{% url "login" %}"><span>Login</span></a>
-						{% endif %}
-					
-				</button>
-			</a>
-		</div>
-	</div>
-</nav> {% endcomment %}
-
-
-
+  
 <nav class="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto">
 	<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-gray-200">
 	<a href="{% url "home" %}" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -207,11 +163,11 @@
 		  <a href="{% url "home" %}" class="block py-2 px-3 text-gray-900 {% block isactive %}{% endblock %}  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
 		</li>
 		<li>
-		  <a href="{% url "aitg" %}" class="block py-2 px-3 text-gray-900 {% block isactivee %}{% endblock %}  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">AI Tour guide</a>
+		  <a href="{% url "aitg" %}" class="block py-2 px-3 text-gray-900 {% block isactivee %}{% endblock %}  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Ai Tour Guide</a>
 		</li>
 		<li>
-		  <a href="{% url "tr_in_blocks" %}" class="block py-2 px-3 text-gray-900 {% block isactiveeeeee %}{% endblock %}  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">TR in Blocks</a>
-		</li>
+			<a href="{% url "hotel_booking_page" %}" class="block py-2 px-3 text-gray-900 {% block isactiveeeeee %}{% endblock %} rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Hotels</a>
+		  </li>
 		<li>
 		  <a href="{% url "pricing" %}" class="block py-2 px-3 text-gray-900 {% block isactiveee %}{% endblock %} rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
 		</li>
@@ -221,6 +177,7 @@
 		<li>
 		  <a href="{% url "contact" %}" class="block py-2 px-3 text-gray-900 {% block isactiveeeee %}{% endblock %} rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
 		</li>
+
 	  </ul>
 	</div>
 	</div>
