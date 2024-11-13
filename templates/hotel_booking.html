@@ -102,19 +102,21 @@ body {
     <option value="ANT">Antalya</option>
     <!-- Add more Turkish city options as needed -->
 </select>
+<div id="results-count" style="font-size: 1.2em; margin-top: 15px; color: #555;"></div>
 </div>
+
 
 <div id="hotels-list"></div>
 
 <script>
     async function fetchHotels() {
         const city = document.getElementById('city').value;
-
+   
         try {
             const response = await fetch(`/api/hotels/?city=${city}`);
             const data = await response.json();
-            console.log("Raw API Response:", data);
-
+            console.log("Raw API Response:", data);  // Add this line to log the response
+   
             if (Array.isArray(data.hotels) && data.hotels.length > 0) {
                 displayHotels(data.hotels);
             } else {
@@ -125,37 +127,72 @@ body {
             document.getElementById('hotels-list').innerText = 'Error fetching hotels: ' + error;
         }
     }
+   
 
     function displayHotels(hotels) {
         const hotelsList = document.getElementById('hotels-list');
         hotelsList.innerHTML = '';
-
+        
+        document.getElementById('results-count').innerText = `Found ${hotels.length} hotels`;
+        
         hotels.forEach(hotel => {
             const hotelCard = document.createElement('div');
             hotelCard.classList.add('hotel-card');
-
+    
             const hotelName = hotel.name || 'No name available';
             const address = hotel.address?.countryCode || 'No address available';
             const rating = hotel.rating || 'No rating available';
             const latitude = hotel.geoCode?.latitude || 'N/A';
             const longitude = hotel.geoCode?.longitude || 'N/A';
-
+            const isFavorite = hotel.is_favorite ? 'Remove from Favorites' : 'Add to Favorites';
+            
             hotelCard.innerHTML = `
                 <h3>${hotelName}</h3>
                 <p><strong>Address:</strong> ${address}</p>
                 <p><strong>Rating:</strong> ${rating}</p>
                 <p><strong>Coordinates:</strong> ${latitude}, ${longitude}</p>
+                <button onclick="toggleFavorite('${hotel.hotelId}', '${hotelName}')">${isFavorite}</button>
                 <button onclick="bookHotel('${hotel.hotelId}')">Book Now</button>
             `;
             hotelsList.appendChild(hotelCard);
         });
     }
+    
+    
 
     function bookHotel(hotelId) {
         alert('Booking hotel with ID: ' + hotelId);
     }
 
+    
+    async function toggleFavorite(hotelId, hotelName) {
+        const url = '/api/favorites/toggle/';
+        const requestData = { hotel_id: hotelId, hotel_name: hotelName };
+    
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token if necessary
+                },
+                body: JSON.stringify(requestData)
+            });
+    
+            const result = await response.json();
+            alert(result.message); // Notify user of success or error
+    
+            fetchHotels();  // Refresh the hotel list to update the favorite status
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+            alert('Failed to update favorite status.');
+        }
+    }
+    
+
     fetchHotels();
+
+    
 </script>
 
 {% endblock maincontent %}

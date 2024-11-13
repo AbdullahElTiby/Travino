@@ -3,6 +3,7 @@ from django.db import models
 from PIL import Image
 from django.core.files.base import ContentFile
 from io import BytesIO
+from django.conf import settings
 
 
 def resize_image(image, size=(1600, 900)):
@@ -73,4 +74,13 @@ class Audio(models.Model):
         return self.name
     
 
+class FavoriteHotel(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='favorite_hotels')
+    hotel_id = models.CharField(max_length=100)  # Store the hotel ID from the Amadeus API
+    hotel_name = models.CharField(max_length=255)
+    
+    class Meta:
+        unique_together = ('user', 'hotel_id')  # Ensure each hotel is only saved once per user
 
+    def __str__(self):
+        return f"{self.user.username}'s favorite hotel: {self.hotel_name}"

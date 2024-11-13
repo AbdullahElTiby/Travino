@@ -20,5 +20,7 @@ urlpatterns = [
     path('change-profile-picture/', views.change_profile_picture, name='change_profile_picture'),
     path('hotels', views.hotel_booking_page, name='hotel_booking_page'),
     path('api/hotels/', views.search_hotels, name='search_hotels'),  # API endpoint for hotels
-    
+    path('api/favorites/toggle/', views.toggle_favorite_hotel, name='toggle_favorite_hotel'),
+    path('favorites/', views.favorites_page, name='favorites_page'),
+
 ]

@@ -131,8 +131,11 @@
 				<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Scans</a>
 			  </li>
 			  <li>
-				<a href="{% url "settings" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-			  </li>
+				  <a href="{% url "favorites_page" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Favorites</a>
+				</li>
+				<li>
+				  <a href="{% url "settings" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+				</li>
 			{% else %}
 
 			{% endif %}
