@@ -85,6 +85,7 @@ def login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me')  # Check for "Remember Me"
 
         if not email or not password:
             messages.error(request, 'Please provide both email and password.')
@@ -93,6 +94,13 @@ def login(request):
         user = authenticate(request, username=email, password=password)
         if user is not None:
             login_user(request, user)
+
+            # Set session expiry based on "Remember Me" checkbox
+            if not remember_me:
+                request.session.set_expiry(0)  # Session expires on browser close
+            else:
+                request.session.set_expiry(1209600)  # Session expires in 2 weeks
+
             return redirect('home')
         else:
             messages.error(request, 'Invalid email or password.')

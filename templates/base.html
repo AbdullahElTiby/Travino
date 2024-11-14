@@ -260,8 +260,8 @@
 			<img src="{% static 'app/icon png.png' %}" class="h-10 w-10">
 		  <span class="ml-3 text-xl">InterTRGuide</span>
 		</a>
-		<p class="text-sm text-gray-500 sm:ml-6 sm:mt-0 mt-4">© 2024 InterTRGuide —
-		  <a href="https://twitter.com/abdullah_eltiby" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">@Abdullah ElTiby</a>
+		<p class="text-sm text-gray-500 sm:ml-6 sm:mt-0 mt-4">© 2024 InterTRGuide  — All rights reserved
+		  {% comment %} <a href="https://twitter.com/abdullah_eltiby" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">@Abdullah ElTiby</a> {% endcomment %}
 		</p>
 		<span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
 		  <a class="text-gray-500">
@@ -303,6 +303,18 @@
   {% endblock script %}
 
   {% block scripts %}{% endblock scripts %}
+
+  <script>
+	document.addEventListener("contextmenu", (e) => e.preventDefault());
+document.onkeydown = (e) => {
+    if (e.keyCode === 123 || // F12
+        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || // Ctrl+Shift+I or Ctrl+Shift+J
+        (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
+        return false;
+    }
+};
+
+  </script>
 
 
 </body>
