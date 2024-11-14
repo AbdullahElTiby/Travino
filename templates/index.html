@@ -21,33 +21,43 @@
 {% block maincontent %}
 {% load static %}
 <section class="text-gray-600 body-font">
-    <div class="container mx-auto flex px-5 py-28 md:flex-row flex-col items-center">
-      <div class="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
+  <div class="relative">
+    <!-- Background Video -->
+    <video class="absolute inset-0 w-full h-full object-cover z-0" autoplay muted loop>
+      <source src="{% static 'app/background.mp4' %}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  
+    <!-- Content Section -->
+    <div class="container mx-auto flex px-5 py-28 md:flex-row flex-col items-center relative z-0">
+      <div class="w-full max-w-3xl mx-auto bg-white bg-opacity-70 backdrop-blur-md p-6 sm:p-10 rounded-lg shadow-lg flex flex-col items-center md:items-start text-center md:text-left mb-10 sm:mb-0">
         <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 animate__animated animate__fadeInDown">Your AI Tour Guide
           <br class="hidden lg:inline-block">in Turkey
         </h1>
         <p class="mb-8 leading-relaxed animate__animated animate__fadeInDown">Discover Turkey like never before with our AI Tour Guide! Enjoy personalized tours, real-time recommendations, and in-depth insights on our site for an exceptional travel experience.</p>
-        <div class="flex justify-center">
-          <a href="{% url "about" %}"><button class="inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg animate__animated animate__fadeInDown">Why us?</button></a>
+        <div class="flex justify-center md:justify-start">
+          <a href="{% url 'about' %}"><button class="inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg animate__animated animate__fadeInDown">Why us?</button></a>
           {% if user.is_authenticated %}
-          <a href="{% url "aitg" %}"><button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg animate__animated animate__fadeInDown">Start discovering</button></a>
+          <a href="{% url 'aitg' %}"><button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg animate__animated animate__fadeInDown">Start discovering</button></a>
           {% else %}
-          <a href="{% url "signup" %}"><button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg animate__animated animate__fadeInDown">Sign up</button></a>
+          <a href="{% url 'signup' %}"><button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg animate__animated animate__fadeInDown">Sign up</button></a>
           {% endif %}
-
-
         </div>
-   
+      
         {% if user.is_authenticated %}
         {% else %}
-        <p class="text-gray-500 text-sm mt-2 md:text-left text-center animate__animated animate__fadeInDown">Already have account? <a href="{% url "login" %}">login!</a></p>
-
+        <p class="text-gray-500 text-sm mt-2 animate__animated animate__fadeInDown">Already have an account? <a href="{% url 'login' %}">login!</a></p>
         {% endif %}
       </div>
+      
+      
+      
       <div class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
         <img class="object-cover object-center rounded-lg" alt="hero" src="{{ MEDIA_URL }}{% static 'app/robotic_hand.jpeg' %}">
       </div>
     </div>
+  </div>
+  
 
     <section class="text-gray-600 body-font">
       <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
@@ -97,8 +107,8 @@
 {% endblock maincontent %}
 
 {% block DS %}
-<script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.26/build/spline-viewer.js"></script>
-<spline-viewer class="spline-container" url="https://prod.spline.design/K03UGSeRmUSdIbky/scene.splinecode"></spline-viewer>
+{% comment %} <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.26/build/spline-viewer.js"></script>
+<spline-viewer class="spline-container" url="https://prod.spline.design/K03UGSeRmUSdIbky/scene.splinecode"></spline-viewer> {% endcomment %}
 
 {% comment %} <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.26/build/spline-viewer.js"></script>
 <spline-viewer class="spline-container" url="https://prod.spline.design/qDCr5rTnCZnuF0Sz/scene.splinecode"></spline-viewer> {% endcomment %}

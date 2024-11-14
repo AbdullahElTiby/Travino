@@ -12,10 +12,6 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 
 
-
-
-
-
 def get_amadeus_token():
     """Retrieve access token from Amadeus API"""
     url = "https://test.api.amadeus.com/v1/security/oauth2/token"
@@ -115,6 +111,23 @@ def logout_view(request):
 
 @login_required(login_url='login')
 def settings(request):
+    user = request.user
+
+    if request.method == 'POST':
+        # Update the user fields with the form data
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.name = request.POST.get('name')
+        
+        # Save the user data
+        user.save()
+
+        # Send success message to user
+        messages.success(request, "Your information has been updated successfully.")
+        return redirect('settings')  # Redirect to the settings page to avoid re-posting on refresh
+    
+    # If it's a GET request, render the settings page
     return render(request, 'settings_page.html')
 
 def tr_in_blocks(request):
@@ -189,7 +202,6 @@ def change_profile_picture(request):
     # Handle GET requests or other cases
     return redirect('settings')  # Redirect to the settings page if not a POST request
 
-
 def contact_view(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -213,7 +225,6 @@ def contact_view(request):
             messages.error(request, "An error occurred while sending your message. Please try again later.")
 
     return render(request, 'contact.html')
-
 
 @login_required(login_url='login')
 def hotel_booking_page(request):
@@ -261,10 +272,6 @@ def search_hotels(request):
     except Exception as e:
         # Log other exceptions
         return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
-
-
-    
-    
     
 @login_required(login_url='login')
 def add_favorite_hotel(request):
@@ -294,7 +301,6 @@ def remove_favorite_hotel(request):
         return JsonResponse({"message": "Hotel removed from favorites"}, status=200)
     else:
         return JsonResponse({"error": "Hotel not found in favorites"}, status=404)
-    
 
 @login_required(login_url='login')
 @csrf_exempt
@@ -318,7 +324,6 @@ def toggle_favorite_hotel(request):
             return JsonResponse({"message": "Hotel added to favorites"})
 
     return JsonResponse({"error": "Invalid request method"}, status=405)
-
 
 @login_required(login_url='login')
 def favorites_page(request):
