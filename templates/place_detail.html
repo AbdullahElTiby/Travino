@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 
 {% block pagetitle %}
-    {{place.name}}
+    {{place.name|capfirst}}
 {% endblock pagetitle %}
 
 {% block maincontent %}
 <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div class="mx-auto max-w-5xl">
-        <h2 class="text-center text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{place.name}} description</h2>
+        <h2 class="text-center text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{place.name|capfirst}} description</h2>
         <div class="my-8 xl:mb-16 xl:mt-12">
           <img class="w-full dark:hidden" src="{{place.image.url}}" alt="" />
         </div>
@@ -25,8 +25,8 @@
             {% endfor %}
             {% for description  in descriptions %}
             <li>
-                <span class="font-semibold text-gray-900 dark:text-white">{{description.descriptionheader}} : </span>
-                {{description.text}}
+                <span class="font-semibold text-gray-900 dark:text-white">{{description.descriptionheader|capfirst}} : </span>
+                {{description.text|capfirst}}
             </li>
             {% endfor %}
           </ul>
