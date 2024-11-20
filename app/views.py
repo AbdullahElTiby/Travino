@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import authenticate, login as login_user, logout as logout_user
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
-from .models import CustomUser,Category,Place,Description,Audio,FavoriteHotel
+from .models import CustomUser,Category,Place,Description,FavoriteHotel
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 import logging
@@ -152,7 +152,7 @@ def category_detail(request, pk):
 def place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
     descriptions = Description.objects.filter(place=place)
-    audio = Audio.objects.filter(description__in=descriptions)
+    audio = Description.objects.filter( place=place).values_list('audio', flat=True)
     
     context = {
         'place': place,

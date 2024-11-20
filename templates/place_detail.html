@@ -17,13 +17,12 @@
   
           {% comment %} <p class="text-base font-semibold text-gray-900 dark:text-white">Key Features and Benefits:</p> {% endcomment %}
           <ul class="list-outside list-disc space-y-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
-            {% for audio in audios %}
+
+            {% for description  in descriptions %}
             <audio controls>
-              <source src="{{ audio.audio.url }}" type="audio/mpeg">
+              <source src="{{ description.audio.url }}" type="audio/mpeg">
             Your browser does not support the audio element.
             </audio>
-            {% endfor %}
-            {% for description  in descriptions %}
             <li>
                 <span class="font-semibold text-gray-900 dark:text-white">{{description.descriptionheader|capfirst}} : </span>
                 {{description.text|capfirst}}
