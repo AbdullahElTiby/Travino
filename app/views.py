@@ -333,3 +333,5 @@ def contact_view(request):
     
 #     return render(request, 'favorites.html', {'favorite_hotels': favorite_hotels})
      
+def nobetci_eczaneler(request):
+    return render(request, 'nobetci_eczaneler.html')     
