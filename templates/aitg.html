@@ -1,4 +1,12 @@
 {% extends "base.html" %}
+
+{% block pagetitle %}
+    Ai Tour Guide
+{% endblock pagetitle %}
+
+{% block isactivee %}text-red-500{% endblock isactivee %}
+
+
   {% load static %}
 
 
@@ -31,9 +39,7 @@
   
 {% endblock stylingInHead %}
 
-{% block pagetitle %}
-    Ai Tour Guide
-{% endblock pagetitle %}
+
 
 {% block maincontent %}
   <div id="chat-container">
@@ -57,7 +63,6 @@
 
 {% endblock maincontent %}
 
-{% block isactivee %}text-red-500{% endblock isactivee %}
 
 {% block script %}
 

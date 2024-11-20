@@ -17,8 +17,8 @@ def get_amadeus_token():
     url = "https://test.api.amadeus.com/v1/security/oauth2/token"
     data = {
         'grant_type': 'client_credentials',
-        'client_id': 'GFdwyQ7GyKwMR8X1syM5FHdtK8qtO7hs',  # Replace with your Amadeus API key
-        'client_secret': '9DvbG6bzkKB5xlo8'  # Replace with your Amadeus API secret
+        'client_id': 'SefT1ACk9xUutkcwZOnjsoL5eep49D5A',  # Replace with your Amadeus API key
+        'client_secret': 'V79rIY1nNAzKGrl1'  # Replace with your Amadeus API secret
     }
 
     response = requests.post(url, data=data)
