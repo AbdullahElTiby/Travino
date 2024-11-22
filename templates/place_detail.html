@@ -4,6 +4,31 @@
     {{place.name|capfirst}}
 {% endblock pagetitle %}
 
+{% block stylingInHead %}
+form {
+  margin-bottom: 20px;
+}
+textarea {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid black;
+}
+
+#button {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  border: 1px solid black;
+}
+.response {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+}
+{% endblock stylingInHead %}
+
 {% block maincontent %}
 <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
@@ -18,16 +43,23 @@
           {% comment %} <p class="text-base font-semibold text-gray-900 dark:text-white">Key Features and Benefits:</p> {% endcomment %}
           <ul class="list-outside list-disc space-y-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
 
-            {% for description  in descriptions %}
-            <audio controls>
+            {% comment %} {% for description  in descriptions %} {% endcomment %}
+            {% comment %} <audio controls>
               <source src="{{ description.audio.url }}" type="audio/mpeg">
             Your browser does not support the audio element.
-            </audio>
+            </audio> {% endcomment %}
+            <form method="POST">
+              {% csrf_token %}
+              <textarea name="user_input" rows="4" cols="50" placeholder="Enter your message">Talk about {{ place.name }}</textarea><br>
+              <button id="button" type="submit">Submit</button>
+          </form>
             <li>
-                <span class="font-semibold text-gray-900 dark:text-white">{{description.descriptionheader|capfirst}} : </span>
-                {{description.text|capfirst}}
+                {% comment %} <span class="font-semibold text-gray-900 dark:text-white">{{description.descriptionheader|capfirst}} : </span> {% endcomment %}
+                <span class="font-semibold text-gray-900 dark:text-white">Description : </span>
+                {% comment %} {{description.text|capfirst}} {% endcomment %}
+                {{ response_text }}
             </li>
-            {% endfor %}
+            {% comment %} {% endfor %} {% endcomment %}
           </ul>
         </div>
         {% comment %} <div class="my-6 md:my-12">
@@ -42,3 +74,5 @@
     </div>
   </section>
 {% endblock maincontent %}
+
+

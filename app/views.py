@@ -10,6 +10,9 @@ from django.http import JsonResponse
 import requests
 from django.views.decorators.csrf import csrf_exempt
 import json
+from huggingface_hub import InferenceClient
+
+client = InferenceClient(api_key="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")
 
 
 def get_amadeus_token():
@@ -152,12 +155,34 @@ def category_detail(request, pk):
 def place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
     descriptions = Description.objects.filter(place=place)
-    audio = Description.objects.filter( place=place).values_list('audio', flat=True)
+    audio = Description.objects.filter(place=place).values_list('audio', flat=True)
+    
+    response_text = ""
+    if request.method == "POST":
+        user_input = request.POST.get("user_input")  # Get input from the HTML form
+        
+        # Prepare the API payload
+        messages = [{"role": "user", "content": user_input}]
+        
+        # Call Hugging Face Chat API
+        try:
+            stream = client.chat.completions.create(
+                model="mistralai/Mistral-7B-Instruct-v0.2",
+                messages=messages,
+                max_tokens=2000,  # Limit the token count as needed
+                stream=False      # Non-streaming mode for simplicity
+            )
+            response_text = stream.choices[0].message["content"]
+        except Exception as e:
+            response_text = f"An error occurred: {str(e)}"
+    
+    
     
     context = {
         'place': place,
         'descriptions': descriptions,
         'audios': audio,
+        "response_text": response_text,
     }
     return render(request, 'place_detail.html', context)
 
@@ -334,4 +359,6 @@ def contact_view(request):
 #     return render(request, 'favorites.html', {'favorite_hotels': favorite_hotels})
      
 def nobetci_eczaneler(request):
-    return render(request, 'nobetci_eczaneler.html')     
+    return render(request, 'nobetci_eczaneler.html')
+
+     
