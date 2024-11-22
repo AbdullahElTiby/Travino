@@ -251,112 +251,112 @@ def contact_view(request):
 
     return render(request, 'contact.html')
 
-# @login_required(login_url='login')
-# def hotel_booking_page(request):
-#     """Render the hotel booking page"""
-#     return render(request, 'hotel_booking.html')    
+@login_required(login_url='login')
+def hotel_booking_page(request):
+    """Render the hotel booking page"""
+    return render(request, 'hotel_booking.html')    
 
-# @login_required(login_url='login')
-# def search_hotels(request):
-#     """Search for hotels using Amadeus API"""
-#     try:
-#         access_token = get_amadeus_token()
-#         city_code = request.GET.get('city', 'IST')  # Default to Istanbul (IST)
-#         check_in_date = request.GET.get('check_in', '2024-11-20')
-#         check_out_date = request.GET.get('check_out', '2024-11-25')
+@login_required(login_url='login')
+def search_hotels(request):
+    """Search for hotels using Amadeus API"""
+    try:
+        access_token = get_amadeus_token()
+        city_code = request.GET.get('city', 'IST')  # Default to Istanbul (IST)
+        check_in_date = request.GET.get('check_in', '2024-11-20')
+        check_out_date = request.GET.get('check_out', '2024-11-25')
 
-#         url = f"https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode={city_code}"
+        url = f"https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-city?cityCode={city_code}"
 
-#         headers = {
-#             "Authorization": f"Bearer {access_token}"
-#         }
+        headers = {
+            "Authorization": f"Bearer {access_token}"
+        }
 
-#         # Make the API request
-#         response = requests.get(url, headers=headers)
-#         response.raise_for_status()  # Raise an exception for HTTP errors
+        # Make the API request
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an exception for HTTP errors
 
-#         data = response.json()
+        data = response.json()
 
-#         if response.status_code == 200:
-#             hotels = data.get('data', [])
-#             if isinstance(hotels, list) and hotels:
-#                 # Add is_favorite property to each hotel based on user's favorites
-#                 user_favorite_hotels = FavoriteHotel.objects.filter(user=request.user).values_list('hotel_id', flat=True)
-#                 for hotel in hotels:
-#                     hotel['is_favorite'] = hotel['hotelId'] in user_favorite_hotels
-#                 return JsonResponse({"hotels": hotels})
-#             else:
-#                 return JsonResponse({"error": "No hotels found or unexpected data format"}, status=404)
-#         else:
-#             return JsonResponse({"error": "Failed to fetch hotels", "details": data}, status=500)
+        if response.status_code == 200:
+            hotels = data.get('data', [])
+            if isinstance(hotels, list) and hotels:
+                # Add is_favorite property to each hotel based on user's favorites
+                user_favorite_hotels = FavoriteHotel.objects.filter(user=request.user).values_list('hotel_id', flat=True)
+                for hotel in hotels:
+                    hotel['is_favorite'] = hotel['hotelId'] in user_favorite_hotels
+                return JsonResponse({"hotels": hotels})
+            else:
+                return JsonResponse({"error": "No hotels found or unexpected data format"}, status=404)
+        else:
+            return JsonResponse({"error": "Failed to fetch hotels", "details": data}, status=500)
 
-#     except requests.exceptions.RequestException as e:
-#         # Log the specific error
-#         return JsonResponse({"error": "Error while contacting the Amadeus API", "details": str(e)}, status=500)
+    except requests.exceptions.RequestException as e:
+        # Log the specific error
+        return JsonResponse({"error": "Error while contacting the Amadeus API", "details": str(e)}, status=500)
 
-#     except Exception as e:
-#         # Log other exceptions
-#         return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
+    except Exception as e:
+        # Log other exceptions
+        return JsonResponse({"error": "An unexpected error occurred", "details": str(e)}, status=500)
     
-# @login_required(login_url='login')
-# def add_favorite_hotel(request):
-#     """Add a hotel to the user's favorites."""
-#     hotel_id = request.POST.get('hotel_id')
-#     hotel_name = request.POST.get('hotel_name')
+@login_required(login_url='login')
+def add_favorite_hotel(request):
+    """Add a hotel to the user's favorites."""
+    hotel_id = request.POST.get('hotel_id')
+    hotel_name = request.POST.get('hotel_name')
     
-#     favorite, created = FavoriteHotel.objects.get_or_create(
-#         user=request.user,
-#         hotel_id=hotel_id,
-#         defaults={'hotel_name': hotel_name}
-#     )
+    favorite, created = FavoriteHotel.objects.get_or_create(
+        user=request.user,
+        hotel_id=hotel_id,
+        defaults={'hotel_name': hotel_name}
+    )
     
-#     if created:
-#         return JsonResponse({"message": "Hotel added to favorites"}, status=201)
-#     else:
-#         return JsonResponse({"message": "Hotel is already in favorites"}, status=200)
+    if created:
+        return JsonResponse({"message": "Hotel added to favorites"}, status=201)
+    else:
+        return JsonResponse({"message": "Hotel is already in favorites"}, status=200)
 
-# @login_required(login_url='login')
-# def remove_favorite_hotel(request):
-#     """Remove a hotel from the user's favorites."""
-#     hotel_id = request.POST.get('hotel_id')
-#     favorite = FavoriteHotel.objects.filter(user=request.user, hotel_id=hotel_id).first()
+@login_required(login_url='login')
+def remove_favorite_hotel(request):
+    """Remove a hotel from the user's favorites."""
+    hotel_id = request.POST.get('hotel_id')
+    favorite = FavoriteHotel.objects.filter(user=request.user, hotel_id=hotel_id).first()
     
-#     if favorite:
-#         favorite.delete()
-#         return JsonResponse({"message": "Hotel removed from favorites"}, status=200)
-#     else:
-#         return JsonResponse({"error": "Hotel not found in favorites"}, status=404)
+    if favorite:
+        favorite.delete()
+        return JsonResponse({"message": "Hotel removed from favorites"}, status=200)
+    else:
+        return JsonResponse({"error": "Hotel not found in favorites"}, status=404)
 
-# @login_required(login_url='login')
-# @csrf_exempt
-# def toggle_favorite_hotel(request):
-#     if request.method == 'POST':
-#         user = request.user
-#         data = json.loads(request.body)
-#         hotel_id = data.get('hotel_id')
-#         hotel_name = data.get('hotel_name')
+@login_required(login_url='login')
+@csrf_exempt
+def toggle_favorite_hotel(request):
+    if request.method == 'POST':
+        user = request.user
+        data = json.loads(request.body)
+        hotel_id = data.get('hotel_id')
+        hotel_name = data.get('hotel_name')
 
-#         # Try to find the favorite hotel entry
-#         favorite = FavoriteHotel.objects.filter(user=user, hotel_id=hotel_id).first()
+        # Try to find the favorite hotel entry
+        favorite = FavoriteHotel.objects.filter(user=user, hotel_id=hotel_id).first()
 
-#         if favorite:
-#             # If it exists, remove the hotel from favorites
-#             favorite.delete()
-#             return JsonResponse({"message": "Hotel removed from favorites"})
-#         else:
-#             # If it does not exist, create a new favorite entry
-#             FavoriteHotel.objects.create(user=user, hotel_id=hotel_id, hotel_name=hotel_name)
-#             return JsonResponse({"message": "Hotel added to favorites"})
+        if favorite:
+            # If it exists, remove the hotel from favorites
+            favorite.delete()
+            return JsonResponse({"message": "Hotel removed from favorites"})
+        else:
+            # If it does not exist, create a new favorite entry
+            FavoriteHotel.objects.create(user=user, hotel_id=hotel_id, hotel_name=hotel_name)
+            return JsonResponse({"message": "Hotel added to favorites"})
 
-#     return JsonResponse({"error": "Invalid request method"}, status=405)
+    return JsonResponse({"error": "Invalid request method"}, status=405)
 
-# @login_required(login_url='login')
-# def favorites_page(request):
-#     """Render the page with the user's favorite hotels."""
-#     user = request.user
-#     favorite_hotels = FavoriteHotel.objects.filter(user=user)  # Get all favorites for the logged-in user
+@login_required(login_url='login')
+def favorites_page(request):
+    """Render the page with the user's favorite hotels."""
+    user = request.user
+    favorite_hotels = FavoriteHotel.objects.filter(user=user)  # Get all favorites for the logged-in user
     
-#     return render(request, 'favorites.html', {'favorite_hotels': favorite_hotels})
+    return render(request, 'favorites.html', {'favorite_hotels': favorite_hotels})
      
 def nobetci_eczaneler(request):
     return render(request, 'nobetci_eczaneler.html')
