@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block pagetitle %}
     {{place.name|capfirst}}
 {% endblock pagetitle %}
@@ -30,6 +29,7 @@ textarea {
 {% endblock stylingInHead %}
 
 {% block maincontent %}
+{% load static %}
 <section class="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
     <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
       <div class="mx-auto max-w-5xl">
@@ -43,16 +43,18 @@ textarea {
           {% comment %} <p class="text-base font-semibold text-gray-900 dark:text-white">Key Features and Benefits:</p> {% endcomment %}
           <ul class="list-outside list-disc space-y-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
 
-            {% comment %} {% for description  in descriptions %} {% endcomment %}
-            {% comment %} <audio controls>
-              <source src="{{ description.audio.url }}" type="audio/mpeg">
-            Your browser does not support the audio element.
-            </audio> {% endcomment %}
+
             <form method="POST">
               {% csrf_token %}
               <textarea name="user_input" rows="4" cols="50" placeholder="Enter your message">Talk about {{ place.name }}</textarea><br>
               <button id="button" type="submit">Submit</button>
           </form>
+          {% if audio_file %}
+          <audio controls>
+              <source src="{% static audio_file %}" type="audio/mpeg">
+              Your browser does not support the audio element.
+          </audio>
+          {% endif %}
             <li>
                 {% comment %} <span class="font-semibold text-gray-900 dark:text-white">{{description.descriptionheader|capfirst}} : </span> {% endcomment %}
                 <span class="font-semibold text-gray-900 dark:text-white">Description : </span>

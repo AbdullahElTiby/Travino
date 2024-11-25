@@ -11,8 +11,12 @@ import requests
 from django.views.decorators.csrf import csrf_exempt
 import json
 from huggingface_hub import InferenceClient
+from gtts import gTTS
+import os
 
 client = InferenceClient(api_key="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")
+chat_client = InferenceClient(api_key="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")
+
 
 
 def get_amadeus_token():
@@ -152,39 +156,60 @@ def category_detail(request, pk):
     }
     return render(request, 'category_detail.html', context)
 
+
+# Initialize the Hugging Face API client
+chat_client = InferenceClient(api_key="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")
+
 def place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
     descriptions = Description.objects.filter(place=place)
-    audio = Description.objects.filter(place=place).values_list('audio', flat=True)
-    
+
     response_text = ""
+    audio_file = None
+
     if request.method == "POST":
-        user_input = request.POST.get("user_input")  # Get input from the HTML form
-        
-        # Prepare the API payload
-        messages = [{"role": "user", "content": user_input}]
-        
-        # Call Hugging Face Chat API
+        user_input = request.POST.get("user_input")  # Get user input from the form
+
+        # Generate Chat Response
         try:
-            stream = client.chat.completions.create(
-                model="mistralai/Mistral-7B-Instruct-v0.2",
+            messages = [{"role": "user", "content": user_input}]
+            stream = chat_client.chat.completions.create(
+                model="microsoft/Phi-3.5-mini-instruct",
                 messages=messages,
-                max_tokens=2000,  # Limit the token count as needed
-                stream=False      # Non-streaming mode for simplicity
+                max_tokens=2000,
+                stream=False
             )
             response_text = stream.choices[0].message["content"]
         except Exception as e:
             response_text = f"An error occurred: {str(e)}"
-    
-    
+
+        # Generate Audio for Response
+        try:
+            # Corrected path to ensure the file is saved in the static directory
+            audio_dir = os.path.join("app", "static","app")  # Ensure it aligns with your project structure
+            os.makedirs(audio_dir, exist_ok=True)  # Create directory if it doesn't exist
+            audio_file_path = os.path.join(audio_dir, "response.mp3")  # Full path to save audio file
+            
+            # Generate audio using gTTS and save it to the file
+            tts = gTTS(text=response_text, lang="en")
+            tts.save(audio_file_path)
+            
+            # Use the correct relative path for the static file
+            audio_file = "app/response.mp3"  # This matches the Django static files URL pattern
+        except Exception as e:
+            audio_file = None
+            response_text += f" | Audio generation failed: {str(e)}"
     
     context = {
         'place': place,
         'descriptions': descriptions,
-        'audios': audio,
         "response_text": response_text,
+        "audio_file": audio_file  # Pass the correct path to the template
     }
     return render(request, 'place_detail.html', context)
+
+
+
 
 @login_required(login_url='login')
 def delete_profile_picture(request):
