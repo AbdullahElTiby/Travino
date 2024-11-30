@@ -36,7 +36,7 @@ text-red-500
                       <li class="text-gray-700 flex items-center">No places available.</li>
                       {% endif %}
                         </h2>
-                        <p class="leading-relaxed text-base">{{category.description|capfirst}}</p>
+                        <p class="leading-relaxed text-base">{{category.description|capfirst|truncatechars:105}}</p>
                     </div>
                 </div>
             </a>
