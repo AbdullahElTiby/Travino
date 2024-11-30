@@ -33,7 +33,7 @@ class CustomUser(AbstractUser):
 class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    suggestion = models.TextField(default='Etc.')
+    # suggestion = models.TextField(default='suggestions.')
     image = models.ImageField(upload_to='category_pics', default='default.png')
 
     def __str__(self):

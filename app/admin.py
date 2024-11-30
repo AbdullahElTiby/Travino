@@ -6,7 +6,7 @@ from .models import CustomUser,Category,Place,Description,FavoriteHotel
 admin.site.register(CustomUser),
 admin.site.register(Place),
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ['name', 'suggestion', 'description']
+    list_display = ['name', 'description']
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Description),

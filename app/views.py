@@ -140,9 +140,11 @@ def settings(request):
 def tr_in_blocks(request):
     categorys = Category.objects.all()
     places = Place.objects.all()
+    categories = Category.objects.prefetch_related('places').all()
     return render(request, 'tr_in_blocks.html',
     {
      'categorys':categorys,
+     'categories': categories,
      'places':places,
      
      })

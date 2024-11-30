@@ -8,33 +8,6 @@ text-red-500
 
 {% block maincontent %}
 
-
-
-  {% comment %} <section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-col text-center w-full mb-20">
-        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Master Cleanse Reliac Heirloom</h1>
-        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify, subway tile poke farm-to-table. Franzen you probably haven't heard of them man bun deep jianbing selfies heirloom.</p>
-      </div>
-      <div class="flex flex-wrap -m-4">
-        {% for category in categorys %}
-        <div class="lg:w-1/3 sm:w-1/2 p-4">
-          <a href="{% url 'category_detail' category.id %}">
-            <div class="flex relative">
-              <img alt="gallery" class="absolute inset-0 w-full h-full object-cover object-center" src="{{category.image.url}}">
-              <div class="px-8 py-10 relative z-10 w-full border-4 border-gray-200 bg-white opacity-0 hover:opacity-100">
-                <h2 class="tracking-widest text-sm title-font font-medium text-red-500 mb-1">{{category.name}}</h2>
-                <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{category.description}}</h1>
-                <p class="leading-relaxed">{{category.suggestion}}</p>
-              </div>
-            </div>
-          </a>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
-  </section> {% endcomment %}
-
   <section class="text-gray-600 body-font">
     <div class="container px-5 py-24 mx-auto">
       <div class="flex flex-wrap w-full mb-20">
@@ -52,7 +25,17 @@ text-red-500
                     <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{category.image.url}}" alt="content">
                     <div>
                         <h3 class="tracking-widest text-red-500 text-xs font-medium title-font">{{category.name|capfirst}}</h3>
-                        <h2 class="text-lg text-gray-900 font-medium title-font mb-4">{{category.suggestion|capfirst}}</h2>
+                        <h2 class="text-lg text-gray-900 font-medium title-font mb-4">
+                          {% if category.places.count > 0 %}
+                          {% for place in category.places.all|slice:":2" %}
+                          <li class="text-gray-700 flex items-center">
+                              {{ place.name|capfirst }}
+                          </li>
+                      {% endfor %}
+                      {% else %}
+                      <li class="text-gray-700 flex items-center">No places available.</li>
+                      {% endif %}
+                        </h2>
                         <p class="leading-relaxed text-base">{{category.description|capfirst}}</p>
                     </div>
                 </div>
