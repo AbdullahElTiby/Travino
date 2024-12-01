@@ -6,6 +6,7 @@
 {% block stylingInHead %}
 form {
   margin-bottom: 20px;
+  text-align: center;
 }
 textarea {
   display: block;
@@ -14,18 +15,73 @@ textarea {
   border: 1px solid black;
 }
 
-#button {
+textarea {
   display: block;
   width: 100%;
   margin-top: 10px;
   border: 1px solid black;
 }
+
+/* Button adjustments */
+#button,
+.submit-btn {
+  display: inline-block; /* Ensures it doesn't stretch the full container width */
+  text-align: center;
+  width: auto; /* Allow the button to fit its content */
+  max-width: 100%; /* Prevents it from overflowing */
+  margin: 10px auto; /* Centers the button horizontally */
+  padding: 12px 20px; /* Adjust padding for better click area */
+  background-color: #ee0404; /* Button background color */
+  color: #ffffff; /* Text color */
+  font-size: 16px; /* Font size */
+  font-weight: bold; /* Bold text */
+  text-align: center; /* Center text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transitions */
+}
+
+.submit-btn:hover {
+  background-color: #217dbb; /* Darker on hover */
+  transform: translateY(-2px); /* Lift effect */
+}
+
+.submit-btn:active {
+  background-color: #1e6fa5; /* Darker on click */
+  transform: translateY(0); /* Reset lift */
+}
+
+@media (max-width: 768px) {
+  .submit-btn {
+      width: 90%; /* Make button wider on smaller screens */
+  }
+}
+
+
 .response {
   margin-top: 20px;
   padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
 }
+
+.spinner {
+  border: 8px solid #dbdbdb;
+  border-top: 8px solid #ee0404;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 {% endblock stylingInHead %}
 
 {% block maincontent %}
@@ -35,46 +91,73 @@ textarea {
       <div class="mx-auto max-w-5xl">
         <h2 class="text-center text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">{{place.name|capfirst}} description</h2>
         <div class="my-8 xl:mb-16 xl:mt-12">
-          <img class="w-full dark:hidden" src="{{place.image.url}}" alt="" />
+          <img class="w-full dark:hidden rounded-full border-8 border-red-500 " src="{{place.image.url}}" alt="" />
         </div>
         <div class="mx-auto max-w-2xl space-y-6">
 
   
-          {% comment %} <p class="text-base font-semibold text-gray-900 dark:text-white">Key Features and Benefits:</p> {% endcomment %}
+ 
           <ul class="list-outside list-disc space-y-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
 
 
             <form method="POST">
               {% csrf_token %}
-              <textarea name="user_input" rows="4" cols="50" placeholder="Enter your message">Talk about {{ place.name }}</textarea><br>
-              <button id="button" type="submit">Submit</button>
+              <textarea hidden name="user_input" rows="4" cols="50" placeholder="Enter your message">Talk about {{ place.name }}</textarea><br>
+              <button id="button" type="submit" class="submit-btn">Let's talk about {{ place.name }}</button>
           </form>
+          <div id="loading-spinner" style="display: none; text-align: center; margin-top: 20px;">
+            <div class="spinner"></div>
+            <p>Generating response...</p>
+        </div>
           {% if audio_file %}
           <audio controls>
               <source src="{% static audio_file %}" type="audio/mpeg">
               Your browser does not support the audio element.
           </audio>
+
+        
           {% endif %}
+          {% if response_text %}
             <li>
-                {% comment %} <span class="font-semibold text-gray-900 dark:text-white">{{description.descriptionheader|capfirst}} : </span> {% endcomment %}
-                <span class="font-semibold text-gray-900 dark:text-white">Description : </span>
-                {% comment %} {{description.text|capfirst}} {% endcomment %}
-                {{ response_text }}
+              
+              <span class="font-semibold text-gray-900 dark:text-white">Description : </span>
+              {{ response_text }}
+          
             </li>
-            {% comment %} {% endfor %} {% endcomment %}
+            {% endif %}
           </ul>
         </div>
-        {% comment %} <div class="my-6 md:my-12">
-          <iframe class="h-[260px] md:h-[540px] w-full rounded-lg" src="https://www.youtube.com/embed/KaLxCiilHns" title="Flowbite Crash Course in 20 mins | Introduction to UI components using Tailwind CSS" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div> {% endcomment %}
         <br/>
 
-        {% comment %} <div class="text-center">
-          <a href="#" class="mb-2 mr-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">Show more...</a>
-        </div> {% endcomment %}
       </div>
     </div>
   </section>
+
+  
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("form");
+      const loadingSpinner = document.getElementById("loading-spinner");
+      const responseContainer = document.querySelector(".response");
+
+      form.addEventListener("submit", function () {
+          // Show the loading spinner
+          loadingSpinner.style.display = "block";
+
+          // Hide the response container while loading
+          if (responseContainer) {
+              responseContainer.style.display = "none";
+          }
+      });
+  });
+</script>
 {% endblock maincontent %}
+
+
+
+
+
+
+  
 
 

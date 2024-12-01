@@ -201,6 +201,7 @@ def place_detail(request, pk):
         except Exception as e:
             audio_file = None
             response_text += f" | Audio generation failed: {str(e)}"
+            
     
     context = {
         'place': place,
