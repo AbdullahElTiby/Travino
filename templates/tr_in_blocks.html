@@ -19,7 +19,7 @@ text-red-500
       </div>
       <div class="flex flex-wrap -m-4 justify-center">
         {% for category in categorys %}
-        <div class="xl:w-1/4 md:w-1/2 sm:w-2/3 w-full p-4">
+        <div data-aos="zoom-out-up" class="xl:w-1/4 md:w-1/2 sm:w-2/3 w-full p-4">
             <a href="{% url 'category_detail' category.id %}">
                 <div class="bg-gray-100 p-6 rounded-lg h-full flex flex-col justify-between">
                     <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{category.image.url}}" alt="content">
