@@ -35,6 +35,12 @@
     z-index: -1; /* Places the viewer behind other content */
   }
 
+  iframe {
+    width: 100%;
+    height: 100vh;
+    border: none;
+  }
+
 
   
 {% endblock stylingInHead %}
@@ -42,22 +48,9 @@
 
 
 {% block maincontent %}
-  <div id="chat-container">
-    <audio id="myAudio" hidden src="{% static '../media/Sounds/hello.mp3' %}"></audio>
-    <button id="startButton" style="display:none;">Start Audio</button>
 
 
-
-
-    <span id="chat-text"></span>
-  </div> 
-<div class="3d-container">
-
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.9.35/build/spline-viewer.js"></script>
-    <spline-viewer class="spline-container" url="https://prod.spline.design/skYaa7t4D1ZAnkxa/scene.splinecode"></spline-viewer>
-</div>
-
-
+<iframe src="http://192.168.1.8:8080"></iframe>
 
 
 

@@ -38,9 +38,14 @@ def get_amadeus_token():
 def home(request):
     return render(request, 'index.html')
 
+
 @login_required(login_url='login')
 def aitg(request):
-    return render(request, 'aitg.html')
+    if request.user.is_authenticated and getattr(request.user, 'is_subscribed', True):  
+        return render(request, 'aitg.html')
+    else:
+        return redirect('pricing')
+
 
 def pricing(request):
     return render(request, 'pricing.html')

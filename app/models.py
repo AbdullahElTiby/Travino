@@ -26,6 +26,7 @@ class CustomUser(AbstractUser):
     image = models.ImageField(upload_to='profile_pics', default='profile_pics/default.png')
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128, default='defaultpassword')
+    is_subscribed = models.BooleanField(default=False) 
 
     def __str__(self):
         return self.username
