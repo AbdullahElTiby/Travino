@@ -10,106 +10,28 @@
   {% load static %}
 
 
-{% block stylingInHead %}
- #chat-container {
-    font-size: 24px;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 85vh; /* Full viewport height */
-    text-align: center;
-  }
-
-  #chat-text{
-    padding-top:300px;
-  } 
-
-  .spline-container {
-    position: absolute;
-    top: 0px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Places the viewer behind other content */
-  }
+{% block styling %}
 
   iframe {
     width: 100%;
     height: 100vh;
     border: none;
+    margin-top:60px;
   }
 
 
   
-{% endblock stylingInHead %}
+{% endblock styling %}
 
 
 
 {% block maincontent %}
 
 
-<iframe src="http://192.168.1.8:8080"></iframe>
+<iframe src="https://b022-91-93-239-182.ngrok-free.app"></iframe>
 
 
 
 {% endblock maincontent %}
-
-
-{% block script %}
-
-<script>
-    // Your target text for the animation
-    const message = "Hello! How can i help you?";
-    
-    // Split the text into characters and inject them into the container
-    const textContainer = document.getElementById("chat-text");
-    textContainer.innerHTML = message
-      .split("")
-      .map(char => `<span class="letter">${char}</span>`)
-      .join("");
-    
-    // Use GSAP to animate each character
-    gsap.from(".letter", {
-      opacity: 0,
-      duration: 0.05,
-      ease: "power2.inOut",
-      stagger: 0.05 // Delay between each letter for the typing effect
-    });
-
-// Create an AudioContext
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-function playAudioOnTouch() {
-    // Resume the AudioContext on user interaction
-    if (audioContext.state === "suspended") {
-        audioContext.resume();
-    }
-
-    // Play the audio
-    const audio = document.getElementById("myAudio");
-    audio.play().catch(error => {
-        console.log("Audio playback failed:", error);
-    });
-
-    // Remove the event listener after the audio starts
-    document.removeEventListener("touchstart", playAudioOnTouch);
-    document.removeEventListener("click", playAudioOnTouch);
-}
-
-// Attach both touch and click listeners to support all devices
-document.addEventListener("touchstart", playAudioOnTouch);
-document.addEventListener("click", playAudioOnTouch);
-
-  
-  
-  </script>
-  
-
-{% endblock script %}
-
-{% block scripts %}
-{% endblock scripts %}
 
 

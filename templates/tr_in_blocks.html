@@ -1,51 +1,144 @@
 {% extends "base.html" %}
 
-{% block pagetitle %}TR in Blocks{% endblock pagetitle %}
+{% block pagetitle %}Discover Turkey{% endblock pagetitle %}
 
-{% block isactiveeeeee %}
-text-red-500
-{% endblock isactiveeeeee %}
+{% block isactiveeeeee %}text-red-500{% endblock isactiveeeeee %}
 
 {% block maincontent %}
-
-  <section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-wrap w-full mb-20">
-        <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
-          <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">Turkey in Blocks</h1>
-          <div class="h-1 w-20 bg-red-500 rounded"></div>
-        </div>
-        <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">Explore Turkey's diverse regions in blocks, each offering unique landscapes, rich history, and vibrant culture. From the bustling streets of Istanbul to the ancient ruins of Ephesus, uncover the beauty and charm of every corner of Turkey.</p>
-      </div>
-      <div class="flex flex-wrap -m-4 justify-center">
-        {% for category in categorys %}
-        <div data-aos="zoom-out-up" class="xl:w-1/4 md:w-1/2 sm:w-2/3 w-full p-4">
-            <a href="{% url 'category_detail' category.id %}">
-                <div class="bg-gray-100 p-6 rounded-lg h-full flex flex-col justify-between">
-                    <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{category.image.url}}" alt="content">
-                    <div>
-                        <h3 class="tracking-widest text-red-500 text-xs font-medium title-font">{{category.name|capfirst}}</h3>
-                        <h2 class="text-lg text-gray-900 font-medium title-font mb-4">
-                          {% if category.places.count > 0 %}
-                          {% for place in category.places.all|slice:":2" %}
-                          <li class="text-gray-700 flex items-center">
-                              {{ place.name|capfirst }}
-                          </li>
-                      {% endfor %}
-                      {% else %}
-                      <li class="text-gray-700 flex items-center">No places available.</li>
-                      {% endif %}
-                        </h2>
-                        <p class="leading-relaxed text-base">{{category.description|capfirst|truncatechars:105}}</p>
-                    </div>
+<section class="body-font bg-gradient-to-b from-red-50 to-white" aria-labelledby="main-heading">
+    <div class="container px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24 mx-auto">
+        <!-- Glass Header Section -->
+        <div class="glass-container bg-white/20 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/30 mb-12 lg:mb-16">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <div class="lg:w-1/2 w-full">
+                    <h1 id="main-heading" class="text-4xl sm:text-5xl font-bold mb-4 bg-gradient-to-r from-red-600 to-red-500 bg-clip-text text-transparent">
+                        Discover Turkey
+                        <span class="block mt-3 text-xl font-normal text-gray-700">Explore the Beauty of Turkey</span>
+                    </h1>
+                    <div class="h-1.5 w-24 bg-gradient-to-r from-red-400 to-red-300 rounded-full animate-line-expand"></div>
                 </div>
-            </a>
+                <p class="lg:w-1/2 w-full text-lg leading-relaxed text-gray-600 mt-4 lg:mt-0">
+                    Embark on a journey through Turkey's diverse regions, each offering unique landscapes, 
+                    rich history, and vibrant culture. From the ancient streets of Istanbul to the 
+                    magical valleys of Cappadocia, discover the treasures that make Turkey unique.
+                </p>
+            </div>
         </div>
-        {% endfor %}
-    </div>
-    
-      
-    </div>
-  </section>
 
+        <!-- Glass Categories Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+            {% for category in categorys %}
+            <article data-aos="fade-up" 
+                     data-aos-delay="{{ forloop.counter0|add:1|stringformat:'i00' }}"
+                     class="group relative">
+                <a href="{% url 'category_detail' category.id %}" 
+                   class="block h-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 rounded-2xl"
+                   aria-labelledby="category-{{ category.id }}-title">
+                    <div class="glass-card bg-white/20 backdrop-blur-lg border border-white/30 rounded-2xl shadow-2xl hover:shadow-red-100/40 transition-all duration-300 h-full overflow-hidden transform hover:-translate-y-2">
+                        <!-- Image Container -->
+                        <div class="relative h-48 sm:h-56 overflow-hidden">
+                            {% if category.image %}
+                                <img class="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110" 
+                                     src="{{ category.image.url }}" 
+                                     alt="{{ category.name }} landscape">
+                            {% else %}
+                                <img class="w-full h-full object-cover" src="/static/images/default-category.jpg" alt="Default Image">
+                            {% endif %}
+                        </div>
+
+                        <!-- Content Container -->
+                        <div class="p-6 bg-white/5">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 id="category-{{ category.id }}-title" 
+                                    class="text-xl font-bold text-gray-900 group-hover:text-red-600 transition-colors">
+                                    {{ category.name|capfirst }}
+                                </h2>
+                                <svg class="w-6 h-6 text-red-500 opacity-80 group-hover:opacity-100 transition-opacity" 
+                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+
+                            <!-- Places List -->
+                            <ul class="space-y-2.5 mb-4">
+                                {% if category.places.count > 0 %}
+                                    {% for place in category.places.all|slice:":2" %}
+                                    <li class="flex items-center text-gray-700 group/place">
+                                        <div class="flex items-center w-full p-2.5 rounded-lg transition-colors hover:bg-white/20">
+                                            <span class="flex-shrink-0 w-2 h-2 mr-3 bg-red-500 rounded-full animate-pulse"></span>
+                                            <span class="text-gray-800">{{ place.name|capfirst }}</span>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                    {% if category.places.count > 2 %}
+                                    <li class="text-sm text-red-500 font-medium mt-3">
+                                        +{{ category.places.count|add:"-2" }} More Destinations
+                                    </li>
+                                    {% endif %}
+                                {% else %}
+                                <li class="text-gray-500 italic">New destinations coming soon</li>
+                                {% endif %}
+                            </ul>
+
+                            <p class="text-gray-700 mb-5 line-clamp-3 leading-relaxed">
+                                {{ category.description|capfirst|truncatechars:120 }}
+                            </p>
+
+                            <div class="flex items-center text-red-500 group-hover:text-red-600 transition-colors border-t border-white/20 pt-4">
+                                <span class="text-sm font-semibold bg-gradient-to-r from-red-600 to-red-500 bg-clip-text text-transparent">
+                                    Explore Region
+                                </span>
+                                <svg class="w-5 h-5 ml-2 transform group-hover:translate-x-2 transition-all" 
+                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </article>
+            {% empty %}
+            <div class="col-span-full text-center py-12">
+                <p class="text-gray-500 text-lg">Discover our new regions soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+    .glass-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+    }
+
+    .glass-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 1rem;
+        box-shadow: inset 0 0 12px rgba(255, 255, 255, 0.3);
+        z-index: -1;
+    }
+
+    .animate-line-expand {
+        animation: lineExpand 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+    }
+
+    @keyframes lineExpand {
+        0% { width: 0; opacity: 0; }
+        100% { width: 6rem; opacity: 1; }
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
 {% endblock maincontent %}

@@ -6,397 +6,380 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block pagetitle %}{% endblock pagetitle %} | Travino</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="58cdf2d9-093a-4830-a12c-403c7281fc9f";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
-    rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+    <link rel="icon" href="{{ MEDIA_URL }}{% static 'app/icon png.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
 
-	<link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-  />
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #EF4444;
+            transition: width 0.3s ease;
+        }
 
+        .nav-link:hover::after {
+            width: 100%;
+        }
 
-<style>
-    body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-    }
+        .user-dropdown {
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
 
-	{% block stylingInHead %}{% endblock stylingInHead %}
-</style>
-	<link rel="icon" href="{{ MEDIA_URL }}{% static 'app/icon png.png' %}" type="image/x-icon">
-	<style>
-			/* Custom button styles */
-			#start-button {
-			  position: relative;
-			  height: 50px;
-			  padding: 0 30px;
-			  border: 2px solid #000;
-			  background: #e8e8e8;
-			  color: #000; /* Ensure the text color is visible */
-			  user-select: none;
-			  white-space: nowrap;
-			  transition: all 0.05s linear;
-			  font-family: inherit;
-			}
-	
-			#start-button:before, #start-button:after {
-			  content: "";
-			  position: absolute;
-			  background: #e8e8e8;
-			  transition: all 0.2s linear;
-			}
-	
-			#start-button:before {
-			  width: calc(100% + 6px);
-			  height: calc(100% - 16px);
-			  top: 8px;
-			  left: -3px;
-			}
-	
-			#start-button:after {
-			  width: calc(100% - 16px);
-			  height: calc(100% + 6px);
-			  top: -3px;
-			  left: 8px;
-			}
-	
-			#start-button:hover {
-			  cursor: pointer;
-			}
-	
-			#start-button:active {
-			  transform: scale(0.95);
-			}
-	
-			#start-button:hover:before {
-			  height: calc(100% - 32px);
-			  top: 16px;
-			}
-	
-			#start-button:hover:after {
-			  width: calc(100% - 32px);
-			  left: 16px;
-			}
-	
-			#start-button span {
-			  font-size: 15px;
-			  z-index: 3;
-			  position: relative;
-			  font-weight: 600;
-			}
+        .user-dropdown.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
 
-			.submenu { height: 50px; }
-		  {% block styling %}{% endblock styling %}
-	</style>
-	{% block headthings %}
-	
-	{% endblock headthings %}
+        .submenu {
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
 
+        .nav-item:hover .submenu {
+            transform: translateY(0);
+        }
+
+        /* Enhanced button styles */
+        .custom-button {
+            position: relative;
+            background: linear-gradient(45deg, #EF4444, #DC2626);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .custom-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2));
+            transition: all 0.5s ease;
+        }
+
+        .custom-button:hover::before {
+            left: 100%;
+        }
+
+        /* Navbar glass effect when scrolled */
+        .navbar-scrolled {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Card hover effects */
+        .hover-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .hover-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        {% block styling %}{% endblock styling %}
+    </style>
+    {% block headthings %}{% endblock headthings %}
 </head>
-<body>
-  
-<nav class="bg-gray-200 shadow shadow-gray-300 w-100 px-8 md:px-auto">
-	<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 bg-gray-200">
-	<a href="{% url "home" %}" class="flex items-center space-x-3 rtl:space-x-reverse">
-		<img src="{% static 'app/icon png.png' %}" class="h-8" alt="Flowbite Logo" />
-		<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Travino</span>
-	</a>
-	<div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse bg-gray-200">
-		<button type="button" class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-		  <span class="sr-only">Open user menu</span>
-		  {% if user.is_authenticated %}
-		  <img class="w-8 h-8 rounded-full" src="{{ MEDIA_URL }}{{ user.image.url }}" alt="">
-		  {% else %}
-		  <img class="w-8 h-8 rounded-full" src="{{ MEDIA_URL }}{% static "app/default.png" %}" alt="">
-		  {% endif %}
-		</button>
-		<!-- Dropdown menu -->
-		<div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-		  <div class="px-4 py-3">
-			{% if user.is_authenticated %}
-			<span class="block text-sm text-gray-900 dark:text-white">{{user.name|capfirst}}</span>
-			<span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{user.email}}</span>
-			{% else %}
-
-			{% endif %}
-		  </div>
-		  <ul class="py-2" aria-labelledby="user-menu-button">
-			{% if user.is_authenticated %}
-			<li>
-				<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Scans</a>
-			  </li>
-			  <li>
-				  <a href="{% url "favorites_page" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Favorites</a>
-				</li> 
-				<li>
-				  <a href="{% url "settings" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
-				</li>
-			{% else %}
-
-			{% endif %}
-			{% if user.is_authenticated %}
-			<li>
-			  
-			  <a href="{% url "logout" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
-			  {% else %}
-			  <a href="{% url "login" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign in</a>
-			  
-			</li>
-			<li>
-				<a href="{% url "signup" %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign up</a>
-			</li>
-			{% endif %}
-		  </ul>
-		</div>
-		<button data-collapse-toggle="navbar-user" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-user" aria-expanded="false">
-		  <span class="sr-only">Open main menu</span>
-		  <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-			  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
-		  </svg>
-	  </button>
-	</div>
-	<div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1 bg-gray-200" id="navbar-user">
-	  <ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-gray-200 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-		<li>
-		  <a href="{% url "home" %}" class="block py-2 px-3 text-gray-900 {% block isactive %}{% endblock %}  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
-		</li>
-		<li class="relative group" id="home-menu">
-			<a  
-			  class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-			>
-			  Services
-			</a>
-			<!-- Submenu -->
-			<ul 
-			  id="submenu" 
-			  class="z-50 absolute left-0 hidden w-48 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg group-hover:block dark:bg-gray-800 dark:border-gray-700"
-			>
-			  <li>
-				<a 
-				  href="{% url 'nobetci_eczaneler' %}" 
-				  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-				  onclick="handleLinkClick(event)"
-				>
-				  Nobetci Eczaneler
-				</a>
-			  </li>
-			  <li>
-				<a 
-				  href="{% url "hotel_booking_page" %}" 
-				  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-				  onclick="handleLinkClick(event)"
-				>
-				  Hotels
-				</a>
-			  </li>
-			  <li>
-				<a 
-				  href="#" 
-				  class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-				>
-				  Empty
-				</a>
-			  </li>
-			</ul>
-		  </li>
-		 
-		  <a href="{% url "aitg" %}" class="block py-2 px-3 text-gray-900 {% block isactivee %}{% endblock %}  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Ai Tour Guide</a>
-		  
-		</li>
-		<li>
-		  <a href="{% url "tr_in_blocks" %}" class="block py-2 px-3 text-gray-900 {% block isactiveeeeee %}{% endblock %}  rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">TR in blocks</a>
-		</li>
-		{% comment %} <li>
-			<a href="{% url "hotel_booking_page" %}" class="block py-2 px-3 text-gray-900 {% block isactiveeeeeeee %}{% endblock %} rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Hotels</a>
-		  </li> {% endcomment %}
-		<li>
-		  <a href="{% url "pricing" %}" class="block py-2 px-3 text-gray-900 {% block isactiveee %}{% endblock %} rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</a>
-		</li>
-		<li>
-		  <a href="{% url "about" %}" class="block py-2 px-3 text-gray-900 {% block isactiveeee %}{% endblock %} rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</a>
-		</li>
-		<li>
-		  <a href="{% url "contact" %}" class="block py-2 px-3 text-gray-900 {% block isactiveeeee %}{% endblock %} rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-		</li>
-
-	  </ul>
-	</div>
-	</div>
-  </nav>
-  
-
-
-{% block maincontent %}
-	
-{% endblock maincontent %}
-
-<footer class="bg-gray-200 shadow shadow-gray-300 text-gray-600 body-font hidden md:block">
-    <div class="container px-5 py-24 mx-auto">
-        <div class="flex flex-wrap md:text-left text-center order-first">
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Nav links</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a href="{% url 'home' %}" class="text-gray-600 hover:text-gray-800">Home</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'aitg' %}" class="text-gray-600 hover:text-gray-800">Ai Tour Guide</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'tr_in_blocks' %}" class="text-gray-600 hover:text-gray-800">TR in Blocks</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'pricing' %}" class="text-gray-600 hover:text-gray-800">Pricing</a>
-                    </li>
-                </nav>
-            </div>
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">Nav links</h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a href="{% url 'about' %}" class="text-gray-600 hover:text-gray-800">About</a>
-                    </li>
-                    <li>
-                        <a href="{% url 'contact' %}" class="text-gray-600 hover:text-gray-800">Contact</a>
-                    </li>
-                </nav>
-            </div>
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3"></h2>
-                <nav class="list-none mb-10">
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800"></a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800"></a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800"></a>
-                    </li>
-                    <li>
-                        <a class="text-gray-600 hover:text-gray-800"></a>
-                    </li>
-                </nav>
-            </div>
-            <div class="lg:w-1/4 md:w-1/2 w-full px-4">
-                <h2 class="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">SUBSCRIBE</h2>
-                <div class="flex xl:flex-nowrap md:flex-nowrap lg:flex-wrap flex-wrap justify-center items-end md:justify-start">
-                    <div class="relative w-40 sm:w-auto xl:mr-4 lg:mr-0 sm:mr-4 mr-2">
-                        <input type="text" id="footer-field" name="footer-field"
-                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:bg-transparent focus:ring-2 focus:ring-red-200 focus:border-red-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                            spellcheck="false" data-ms-editor="true">
-                    </div>
-                    <button
-                        class="lg:mt-2 xl:mt-0 flex-shrink-0 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">SUBSCRIBE</button>
+<body class="min-h-screen flex flex-col">
+    <!-- Enhanced Navbar -->
+    <nav class="fixed w-full z-50 transition-all duration-300" id="main-nav">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <a href="{% url 'home' %}" class="flex items-center space-x-2">
+                        <img src="{% static 'app/icon png.png' %}" class="h-8 w-auto" alt="Travino">
+                        <span class="text-xl font-bold bg-gradient-to-r from-red-600 to-red-400 bg-clip-text text-transparent">
+                            Travino
+                        </span>
+                    </a>
                 </div>
-                <p class="text-gray-500 mt-2 text-sm text-center sm:text-left">Subscribe to stay updated.</p>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="{% url 'home' %}" class="nav-link text-gray-700 hover:text-red-500">Home</a>
+                    
+                    <div class="relative">
+                        <button id="servicesButton" class="nav-link text-gray-700 hover:text-red-500 focus:outline-none">
+                            Services
+                        </button>
+                        <div id="submenu" class="submenu absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible transition-all duration-300">
+                            <a href="{% url 'nobetci_eczaneler' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                Nobetci Eczaneler
+                            </a>
+                            <a href="{% url 'hotel_booking_page' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                Hotels
+                            </a>
+                            <a href="{% url 'directions' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                Directions
+                            </a>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'aitg' %}" class="nav-link text-gray-700 hover:text-red-500">AI Tour Guide</a>
+                    <a href="{% url 'tr_in_blocks' %}" class="nav-link text-gray-700 hover:text-red-500">TR in blocks</a>
+                    <a href="{% url 'pricing' %}" class="nav-link text-gray-700 hover:text-red-500">Pricing</a>
+                    <a href="{% url 'about' %}" class="nav-link text-gray-700 hover:text-red-500">About</a>
+                    <a href="{% url 'contact' %}" class="nav-link text-gray-700 hover:text-red-500">Contact</a>
+                </div>
+
+                <!-- User Menu -->
+                <div class="relative">
+                    <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none">
+                        <div class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-red-500 ring-offset-2">
+                            {% if user.is_authenticated %}
+                                <img class="w-full h-full object-cover" src="{{ MEDIA_URL }}{{ user.image.url }}" alt="">
+                            {% else %}
+                                <img class="w-full h-full object-cover" src="{{ MEDIA_URL }}{% static 'app/default.png' %}" alt="">
+                            {% endif %}
+                        </div>
+                    </button>
+
+                    <div id="user-dropdown" class="user-dropdown absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
+                        {% if user.is_authenticated %}
+                            <div class="px-4 py-3 border-b border-gray-100">
+                                <p class="text-sm font-medium text-gray-900">{{user.name|capfirst}}</p>
+                                <p class="text-sm text-gray-500 truncate">{{user.email}}</p>
+                            </div>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                My Scans
+                            </a>
+                            <a href="{% url 'favorites_page' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                My Favorites
+                            </a>
+                            <a href="{% url 'settings' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                Settings
+                            </a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                Sign out
+                            </a>
+                        {% else %}
+                            <a href="{% url 'login' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                Sign in
+                            </a>
+                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
+                                Sign up
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button class="md:hidden" id="mobile-menu-button">
+                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
             </div>
         </div>
-    </div>
-	<div class="bg-gray-100">
-		<div class="container px-5 py-6 mx-auto flex items-center sm:flex-row flex-col">
-		  <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
-			  <img src="{% static 'app/icon png.png' %}" class="h-10 w-10">
-			<span class="ml-3 text-xl">Travino</span>
-		  </a>
-		  <p class="text-sm text-gray-500 sm:ml-6 sm:mt-0 mt-4">© 2024 Travino  — All rights reserved
-			{% comment %} <a href="https://twitter.com/abdullah_eltiby" rel="noopener noreferrer" class="text-gray-600 ml-1" target="_blank">@Abdullah ElTiby</a> {% endcomment %}
-		  </p>
-		  <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
-			<a class="text-gray-500">
-			  <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-				<path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-			  </svg>
-			</a>
-			<a class="ml-3 text-gray-500">
-			  <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-				<path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-			  </svg>
-			</a>
-			<a class="ml-3 text-gray-500">
-			  <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-				<rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
-				<path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
-			  </svg>
-			</a>
-			<a class="ml-3 text-gray-500">
-			  <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
-				<path stroke="none" d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-				<circle cx="4" cy="4" r="2" stroke="none"></circle>
-			  </svg>
-			</a>
-		  </span>
-		</div>
-	  </div>
-</footer>
+    </nav>
 
-  <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block maincontent %}{% endblock maincontent %}
+    </main>
 
-  {% block DS %}
-  <div>
+    <!-- Enhanced Footer -->
+    <footer class="bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="space-y-8">
+                    <div class="flex items-center space-x-2">
+                        <img src="{% static 'app/icon png.png' %}" class="h-8 w-auto" alt="Travino">
+                        <span class="text-xl font-bold">Travino</span>
+                    </div>
+                    <p class="text-gray-500 text-sm">
+                        Your ultimate travel companion for exploring Turkey.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-red-500 transition-colors">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-500 transition-colors">
+                            <span class="sr-only">Twitter</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-red-500 transition-colors">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
 
-  </div>
-  {% endblock DS %}
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Navigation</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="{% url 'home' %}" class="text-gray-500 hover:text-red-500 transition-colors">Home</a></li>
+                        <li><a href="{% url 'aitg' %}" class="text-gray-500 hover:text-red-500 transition-colors">AI Tour Guide</a></li>
+                        <li><a href="{% url 'tr_in_blocks' %}" class="text-gray-500 hover:text-red-500 transition-colors">TR in Blocks</a></li>
+                        <li><a href="{% url 'pricing' %}" class="text-gray-500 hover:text-red-500 transition-colors">Pricing</a></li>
+                    </ul>
+                </div>
 
-  {% block script %}
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Legal</h3>
+                    <ul class="mt-4 space-y-4">
+                        <li><a href="#" class="text-gray-500 hover:text-red-500 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-red-500 transition-colors">Terms of Service</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-500 hover:text-red-500 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
 
-  {% endblock script %}
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Newsletter</h3>
+                    <p class="mt-4 text-gray-500 text-sm">Subscribe to our newsletter for the latest updates.</p>
+                    <form class="mt-4">
+                        <div class="flex flex-col space-y-3">
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                            >
+                            <button type="submit" class="custom-button">
+                                Subscribe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-200 pt-8">
+                <p class="text-gray-400 text-sm text-center">
+                    © 2025 Travino. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
 
-  {% block scripts %}{% endblock scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-  <script>
-	document.addEventListener("contextmenu", (e) => e.preventDefault());
-document.onkeydown = (e) => {
-    if (e.keyCode === 123 || // F12
-        (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || // Ctrl+Shift+I or Ctrl+Shift+J
-        (e.ctrlKey && e.keyCode === 85)) { // Ctrl+U
-        return false;
-    }
-};
+    <script>
+        // Initialize AOS
+        AOS.init();
 
-// Select the parent menu item and submenu
-const menuItem = document.getElementById("home-menu");
-const submenu = document.getElementById("submenu");
+        // Navbar scroll effect
+        const navbar = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
 
-// Add a click event listener to toggle the submenu visibility
-menuItem.addEventListener("click", function(event) {
-  // Prevents the page from navigating if it was a link
-  event.preventDefault();
+        // User dropdown toggle
+        const userMenuButton = document.getElementById('user-menu-button');
+        const userDropdown = document.getElementById('user-dropdown');
+        let isUserMenuOpen = false;
 
-  // Toggle submenu visibility
-  submenu.classList.toggle("hidden");
-});
+        userMenuButton.addEventListener('click', () => {
+            isUserMenuOpen = !isUserMenuOpen;
+            if (isUserMenuOpen) {
+                userDropdown.classList.add('active');
+            } else {
+                userDropdown.classList.remove('active');
+            }
+        });
 
-// JavaScript function to handle submenu toggle
-function handleLinkClick(event) {
-	// Prevent the default link behavior (navigation) if necessary
-	event.preventDefault();
-  
-	// Optionally, you can toggle the visibility of the submenu
-	const submenu = document.getElementById("submenu");
-	submenu.classList.toggle("hidden");
-  
-	// If you want to follow the link after closing the submenu, you can do that here:
-	window.location.href = event.target.href;
-  }
-  
-  
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!userMenuButton.contains(event.target) && !userDropdown.contains(event.target)) {
+                isUserMenuOpen = false;
+                userDropdown.classList.remove('active');
+            }
+        });
 
-  </script>
+        // Mobile menu
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.createElement('div');
+        mobileMenu.className = 'md:hidden fixed inset-0 bg-white z-40 transform transition-transform duration-300 translate-x-full';
+        document.body.appendChild(mobileMenu);
 
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('translate-x-full');
+            mobileMenu.innerHTML = `
+                <div class="p-4">
+                    <div class="flex justify-end">
+                        <button class="mobile-close-button">
+                            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mt-8 space-y-4">
+                        <a href="{% url 'home' %}" class="block text-lg text-gray-700 hover:text-red-500">Home</a>
+                        <a href="{% url 'aitg' %}" class="block text-lg text-gray-700 hover:text-red-500">AI Tour Guide</a>
+                        <a href="{% url 'tr_in_blocks' %}" class="block text-lg text-gray-700 hover:text-red-500">TR in blocks</a>
+                        <a href="{% url 'pricing' %}" class="block text-lg text-gray-700 hover:text-red-500">Pricing</a>
+                        <a href="{% url 'about' %}" class="block text-lg text-gray-700 hover:text-red-500">About</a>
+                        <a href="{% url 'contact' %}" class="block text-lg text-gray-700 hover:text-red-500">Contact</a>
+                    </div>
+                </div>
+            `;
 
-  <script>
-	AOS.init();
-  </script>
+            const closeButton = mobileMenu.querySelector('.mobile-close-button');
+            closeButton.addEventListener('click', () => {
+                mobileMenu.classList.add('translate-x-full');
+            });
+        });
 
+        // Prevent right-click and keyboard shortcuts
+        document.addEventListener("contextmenu", (e) => e.preventDefault());
+        document.onkeydown = (e) => {
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
+                (e.ctrlKey && e.keyCode === 85)) {
+                return false;
+            }
+        };
 
+        document.getElementById('servicesButton').addEventListener('click', function () {
+            let submenu = document.getElementById('submenu');
+            submenu.classList.toggle('opacity-100');
+            submenu.classList.toggle('visible');
+            submenu.classList.toggle('opacity-0');
+            submenu.classList.toggle('invisible');
+        });
+    </script>
+
+    {% block DS %}{% endblock DS %}
+    {% block script %}{% endblock script %}
+    {% block scripts %}{% endblock scripts %}
 
 </body>
 </html>

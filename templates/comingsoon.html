@@ -1,14 +1,86 @@
 {% extends "base.html" %}
 
-
 {% block maincontent %}
-<div class="bg-gray-100 dark:bg-gray-800">
-    <div class="min-h-screen flex items-center justify-center">
-        <div class="max-w-2xl w-full px-4">
-            <h1 class="text-4xl font-bold text-center mb-8 text-gray-900 dark:text-white">Coming Soon!</h1>
-            <p class="text-lg text-gray-600 dark:text-gray-300 text-center mb-12">Our website is under construction. We'll be back soon!
-            </p>
+<div class="min-h-screen bg-gradient-to-br from-gray-100 via-gray-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 flex items-center justify-center relative overflow-hidden">
+    <!-- Animated background elements -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(239,68,68,0.1)_0%,_transparent_70%)] animate-pulse"></div>
+    
+    <!-- Glassmorphism container -->
+    <div class="glass-container relative bg-white/10 dark:bg-gray-900/30 backdrop-blur-xl rounded-2xl border border-white/20 dark:border-gray-700/50 shadow-2xl p-8 mx-4 transform transition-all duration-500 hover:shadow-3xl">
+        <div class="max-w-2xl text-center space-y-8">
+            <!-- Animated title -->
+            <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent animate-float">
+                🚧 Available Soon!
+            </h1>
+            
+            <!-- Content with animated entry -->
+            <div class="space-y-6 animate-fade-in-up">
+                <p class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 leading-relaxed">
+                    We're crafting something extraordinary! Our digital experience is under construction, but greatness takes time. 
+                    Stay tuned for an unforgettable journey!
+                </p>
+                
+                <!-- Progress indicator -->
+                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div class="bg-gradient-to-r from-red-500 to-red-400 h-3 rounded-full w-2/3 animate-progress"></div>
+                </div>
+                
+                <!-- Notification form -->
+                <div class="space-y-4 max-w-md mx-auto">
+                    <div class="flex gap-4">
+                        <input type="email" 
+                               class="w-full px-6 py-3 rounded-xl bg-white/20 dark:bg-gray-800/30 border border-white/30 dark:border-gray-700/50 focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400"
+                               placeholder="Enter your email for updates">
+                        <button class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-400 text-white rounded-xl hover:from-red-600 hover:to-red-500 transition-all transform hover:scale-105 shadow-lg hover:shadow-red-500/20">
+                            Notify Me
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">We respect your privacy. No spam, ever.</p>
+                </div>
+            </div>
+            
+            <!-- Social links -->
+            <div class="flex justify-center space-x-6 mt-8">
+                <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
+                </a>
+                <!-- Add more social icons as needed -->
+            </div>
         </div>
     </div>
 </div>
+
+<style>
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+    }
+    
+    @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes progress {
+        from { width: 0; }
+        to { width: 66%; }
+    }
+    
+    .animate-float {
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .animate-fade-in-up {
+        animation: fade-in-up 1s ease-out forwards;
+    }
+    
+    .animate-progress {
+        animation: progress 2s ease-out forwards;
+    }
+    
+    .glass-container {
+        backdrop-filter: blur(16px) saturate(180%);
+        -webkit-backdrop-filter: blur(16px) saturate(180%);
+    }
+</style>
 {% endblock maincontent %}

@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block styling %}
+<style>
+    .directions-container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 2rem;
+        margin: 2rem auto;
+        max-width: 600px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .input-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+
+    .input-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #2d3748;
+        font-weight: 500;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid rgba(236, 72, 72, 0.2);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+        border-color: #ec4848;
+        box-shadow: 0 0 0 3px rgba(236, 72, 72, 0.1);
+        outline: none;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 600;
+    }
+
+    #generateDirections {
+        background: linear-gradient(135deg, #ec4848 0%, #c53b3b 100%);
+        color: white;
+    }
+
+    #generateDirections:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(236, 72, 72, 0.3);
+    }
+
+    .result-card {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 1.5rem;
+        border-radius: 10px;
+        margin-top: 2rem;
+        animation: slideIn 0.6s ease-out;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .result-card a {
+        color: #2d3748;
+        text-decoration: none;
+        word-break: break-all;
+    }
+
+    .result-card a:hover {
+        color: #ec4848;
+    }
+
+    .copy-btn {
+        background: rgba(236, 72, 72, 0.1);
+        color: #ec4848;
+        padding: 8px 16px;
+        border-radius: 8px;
+        margin-left: 1rem;
+    }
+
+    .copy-btn:hover {
+        background: rgba(236, 72, 72, 0.2);
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .error-message {
+        background: rgba(236, 72, 72, 0.1);
+        color: #c53030;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-top: 1rem;
+        animation: shake 0.4s ease-in-out;
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-8px); }
+        75% { transform: translateX(8px); }
+    }
+</style>
+{% endblock styling %}
+
+{% block pagetitle %}Directions{% endblock pagetitle %}
+
+{% block maincontent %}
+<div style="margin:90px" class="directions-container">
+    <h2 class="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent">
+        🗺️ Directions Generator
+    </h2>
+
+    <div class="input-group">
+        <label class="input-label">Start Location</label>
+        <input type="text" id="origin" placeholder="Current location or address">
+    </div>
+
+    <div class="input-group">
+        <label class="input-label">Destination</label>
+        <input type="text" id="destination" placeholder="Where to?">
+    </div>
+
+    <div class="input-group">
+        <label class="input-label">Travel Mode</label>
+        <select id="travelMode">
+            <option value="">Choose transportation</option>
+            <option value="driving">🚗 Driving</option>
+            <option value="walking">🚶 Walking</option>
+            <option value="bicycling">🚴 Bicycling</option>
+            <option value="transit">🚆 Transit</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label class="input-label">Stops Along the Way</label>
+        <input type="text" id="waypoints" placeholder="Separate stops with commas">
+    </div>
+
+    <div class="action-buttons">
+        <button id="generateDirections">Generate Directions</button>
+        <button onclick="resetForm()" class="bg-gray-100 text-gray-600 hover:bg-gray-200">
+            ↺ Reset
+        </button>
+    </div>
+
+    <div id="resultDirections"></div>
+</div>
+
+<script>
+    function generateDirections() {
+        const origin = document.getElementById('origin').value.trim();
+        const destination = document.getElementById('destination').value.trim();
+        const travelMode = document.getElementById('travelMode').value;
+        const waypointsInput = document.getElementById('waypoints').value.trim();
+        const resultDiv = document.getElementById('resultDirections');
+
+        if (!origin || !destination) {
+            resultDiv.innerHTML = `
+                <div class="error-message">
+                    ⚠️ Please enter both start and end locations
+                </div>
+            `;
+            return;
+        }
+
+        let link = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${encodeURIComponent(destination)}`;
+
+        if (travelMode) link += `&travelmode=${encodeURIComponent(travelMode)}`;
+        
+        if (waypointsInput) {
+            const waypoints = waypointsInput.split(',')
+                .map(w => w.trim())
+                .filter(w => w)
+                .join('|');
+            if (waypoints) link += `&waypoints=${encodeURIComponent(waypoints)}`;
+        }
+
+        resultDiv.innerHTML = `
+            <div class="result-card">
+                <a href="${link}" target="_blank">${link}</a>
+                <button class="copy-btn" onclick="copyToClipboard('${link}')">
+                    ⎘ Copy
+                </button>
+            </div>
+        `;
+    }
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = event.target;
+            btn.textContent = '✓ Copied!';
+            setTimeout(() => btn.textContent = '⎘ Copy', 2000);
+        });
+    }
+
+    function resetForm() {
+        document.querySelectorAll('input, select').forEach(el => el.value = '');
+        document.getElementById('resultDirections').innerHTML = '';
+    }
+
+    document.getElementById('generateDirections').addEventListener('click', generateDirections);
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('keypress', e => e.key === 'Enter' && generateDirections());
+    });
+</script>
+{% endblock maincontent %}

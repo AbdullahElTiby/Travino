@@ -7,49 +7,93 @@
 {% block isactiveeeee %}text-red-500{% endblock isactiveeeee %}
 
 {% block maincontent %}
-<section class="text-gray-600 body-font relative">
+<section class="text-gray-600 body-font relative bg-gradient-to-b from-red-50 to-white">
     <div class="container px-5 py-24 mx-auto flex sm:flex-nowrap flex-wrap">
-      <div class="lg:w-2/3 md:w-1/2 bg-gray-300 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-        <iframe width="100%" height="100%" class="absolute inset-0" style="filter: grayscale(1) contrast(1.2) opacity(0.4);" frameborder="0" title="map" marginheight="0" marginwidth="0" scrolling="no" src="https://maps.google.com/maps?width=100%&height=600&hl=en&q=%C4%B0zmir+(My%20Business%20Name)&ie=UTF8&t=&z=14&iwloc=B&output=embed"></iframe>
-        <div class="bg-white relative flex flex-wrap py-6 rounded shadow-md">
-          <div class="lg:w-1/2 px-6">
-            <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">ADDRESS</h2>
-            <p class="mt-1">Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter</p>
-          </div>
-          <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
-            <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">EMAIL</h2>
-            <a class="text-red-500 leading-relaxed">example@email.com</a>
-            <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">PHONE</h2>
-            <p class="leading-relaxed">123-456-7890</p>
-          </div>
+        <!-- Map Section with Glass Effect -->
+        <div class="lg:w-2/3 md:w-1/2 bg-white/20 backdrop-blur-lg rounded-xl overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative shadow-2xl animate-fade-in-right">
+            <iframe width="100%" height="100%" class="absolute inset-0 rounded-xl" style="filter: grayscale(1) contrast(1.2) opacity(0.3);" frameborder="0" title="map" marginheight="0" marginwidth="0" scrolling="no" src="https://maps.google.com/maps?width=100%&height=600&hl=en&q=%C4%B0zmir+(My%20Business%20Name)&ie=UTF8&t=&z=14&iwloc=B&output=embed"></iframe>
+            <div class="bg-white/30 backdrop-blur-md relative flex flex-wrap py-6 rounded-xl shadow-lg border border-white/20">
+                <div class="lg:w-1/2 px-6">
+                    <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">ADDRESS</h2>
+                    <p class="mt-1 text-gray-700">Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter</p>
+                </div>
+                <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
+                    <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs">EMAIL</h2>
+                    <a class="text-red-500 leading-relaxed hover:text-red-600 transition-colors">example@email.com</a>
+                    <h2 class="title-font font-semibold text-gray-900 tracking-widest text-xs mt-4">PHONE</h2>
+                    <p class="leading-relaxed text-gray-700">123-456-7890</p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="lg:w-1/3 md:w-1/2 bg-white flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
-        <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">Feedback</h2>
-        <p class="leading-relaxed mb-5 text-gray-600">Customer feedback is vital for improving our services and tailoring our offerings to better meet your needs.</p>
-        <form method="post" action="contact">
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert">{{ message }}</div>
-            {% endfor %}
-            {% endif %}
-        {% csrf_token %}
-        <div class="relative mb-4">
-          <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
-          <input type="text" id="name" name="name" class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+
+        <!-- Form Section with Modern Styling -->
+        <div class="lg:w-1/3 md:w-1/2 bg-white/80 backdrop-blur-lg flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0 rounded-xl shadow-2xl border border-white/20 animate-fade-in-left px-6 sm:px-8">
+          <h2 class="text-gray-900 text-2xl mb-1 font-bold title-font bg-gradient-to-r from-red-500 to-red-400 bg-clip-text text-transparent pt-6">Feedback</h2>
+          <p class="leading-relaxed mb-5 text-gray-600">Customer feedback is vital for improving our services and tailoring our offerings to better meet your needs.</p>
+            
+            <form method="post" action="contact" class="space-y-4">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="alert p-3 rounded-lg bg-green-100/80 border border-green-300 text-green-800 flex items-center animate-fade-in">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                    {{ message }}
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% csrf_token %}
+                
+                <div class="relative">
+                    <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
+                    <input type="text" id="name" name="name" class="w-full bg-white/50 rounded-lg border border-gray-300/80 focus:border-red-500 focus:ring-2 focus:ring-red-200/50 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-all duration-300 hover:shadow-sm hover:border-red-300 focus:shadow-lg">
+                </div>
+                
+                <div class="relative">
+                    <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
+                    <input type="email" id="email" name="email" class="w-full bg-white/50 rounded-lg border border-gray-300/80 focus:border-red-500 focus:ring-2 focus:ring-red-200/50 text-base outline-none text-gray-700 py-2 px-4 leading-8 transition-all duration-300 hover:shadow-sm hover:border-red-300 focus:shadow-lg">
+                </div>
+                
+                <div class="relative">
+                    <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
+                    <textarea id="message" name="message" class="w-full bg-white/50 rounded-lg border border-gray-300/80 focus:border-red-500 focus:ring-2 focus:ring-red-200/50 h-32 text-base outline-none text-gray-700 py-2 px-4 resize-none leading-6 transition-all duration-300 hover:shadow-sm hover:border-red-300 focus:shadow-lg"></textarea>
+                </div>
+                
+                <button class="w-full text-white bg-gradient-to-r from-red-500 to-red-400 border-0 py-3 px-6 focus:outline-none hover:from-red-600 hover:to-red-500 rounded-lg text-lg shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-[1.02] flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                    </svg>
+                    Send Message
+                </button>
+            </form>
+            
+            <p class="text-xs text-gray-500 mt-3 text-center">We value your input. Share your feedback or inquiries.</p>
         </div>
-        <div class="relative mb-4">
-          <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-          <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-        </div>
-        <div class="relative mb-4">
-          <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
-          <textarea id="message" name="message" class="w-full bg-white rounded border border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
-        </div>
-        <button class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Send to us</button>
-      </form>
-        <p class="text-xs text-gray-500 mt-3">We value your input. Share your feedback or inquiries, and let us assist you better.</p>
-      </div>
     </div>
-  </section>
+</section>
+
+<style>
+    .animate-fade-in-right {
+        animation: fadeInRight 0.8s ease-out;
+    }
+    .animate-fade-in-left {
+        animation: fadeInLeft 0.8s ease-out;
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease-in;
+    }
+    @keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeInLeft {
+        from { opacity: 0; transform: translateX(-20px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
 {% endblock maincontent %}

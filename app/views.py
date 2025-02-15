@@ -394,4 +394,8 @@ def favorites_page(request):
 def nobetci_eczaneler(request):
     return render(request, 'nobetci_eczaneler.html')
 
+def directions(request):
+
+    return render(request, 'directions.html')
+
      

@@ -102,9 +102,9 @@
 
 {% block maincontent %}
 {% load static %}
-<section class="bg-gradient-to-b from-red-50 to-white min-h-screen py-12 pt-12">
+<section class="bg-gradient-to-b from-red-50 to-white min-h-screen py-12">
   <div class="container mx-auto px-4 max-w-4xl">
-    <div class="glass-panel text-center pt-12">
+    <div class="glass-panel text-center">
       <h2 class="text-4xl font-bold mb-6 bg-gradient-to-r from-red-600 to-red-500 bg-clip-text text-transparent">
         {{place.name|capfirst}}
       </h2>
@@ -119,13 +119,13 @@
         {% csrf_token %}
         <textarea hidden name="user_input">Talk about {{ place.name }}</textarea>
         <button type="submit" class="submit-btn">
-          Generate The Description
+          🗣️ Generate Audio Guide
         </button>
       </form>
 
       <div id="loading-spinner" style="display: none;">
         <div class="spinner"></div>
-        <p class="mt-4 text-gray-600 font-medium">Generating the description for you...</p>
+        <p class="mt-4 text-gray-600 font-medium">Crafting your audio experience...</p>
       </div>
 
       {% if audio_file %}
@@ -145,7 +145,7 @@
           </svg>
           <h3 class="text-xl font-bold text-gray-800">AI-Powered Description</h3>
         </div>
-        <p class="text-gray-700 leading-relaxed text-left">{{ response_text }}</p>
+        <p class="text-gray-700 leading-relaxed">{{ response_text }}</p>
       </div>
       {% endif %}
     </div>

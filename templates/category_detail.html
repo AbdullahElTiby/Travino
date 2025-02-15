@@ -5,25 +5,55 @@
 {% endblock pagetitle %}
 
 {% block maincontent %}
-<section class="text-gray-600 body-font">
+<section class="body-font bg-gradient-to-b from-red-50 to-white">
   <div class="container px-5 py-24 mx-auto">
-    <div class="flex flex-wrap w-full mb-20">
+    <!-- Category Header with Glass Effect -->
+    <div class="flex flex-wrap w-full mb-20 backdrop-blur-sm bg-white/30 rounded-xl p-8 shadow-lg border border-white/20">
       <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
-        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">{{category.name|capfirst}}</h1>
-        <div class="h-1 w-20 bg-red-500 rounded"></div>
+        <h1 class="sm:text-4xl text-3xl font-bold mb-4 bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
+          {{category.name|capfirst}}
+        </h1>
+        <div class="h-1.5 w-24 bg-gradient-to-r from-red-400 to-red-300 rounded-full animate-slide-right"></div>
       </div>
-      <p class="lg:w-1/2 w-full leading-relaxed text-gray-500">{{category.description|capfirst}}</p>
+      <p class="lg:w-1/2 w-full text-lg leading-relaxed text-gray-600 mt-4 lg:mt-0">
+        {{category.description|capfirst}}
+      </p>
     </div>
+
+    <!-- Places Grid -->
     <div class="flex flex-wrap -m-4 justify-center">
       {% for place in places %}
-      <div data-aos="zoom-out-up" class="xl:w-1/4 md:w-1/2 p-4">
-        <a href="{% url 'place_detail' place.id %}">
-        <div class="bg-gray-100 p-6 rounded-lg">
-          <img class="h-40 rounded w-full object-cover object-center mb-6" src="{{place.image.url}}" alt="content">
-          <h3 class="tracking-widest text-red-500 text-xs font-medium title-font">{{place.name|capfirst}}</h3>
-          {% comment %} <h2 class="text-lg text-gray-900 font-medium title-font mb-4">{{place.suggestion}}</h2> {% endcomment %}
-          <p class="leading-relaxed text-base">{{place.description|capfirst}}</p>
-        </div>
+      <div data-aos="fade-up" class="xl:w-1/4 md:w-1/2 p-4 group">
+        <a href="{% url 'place_detail' place.id %}" class="block transform transition-all duration-300 hover:scale-105">
+          <div class="glass-card bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl p-6 shadow-2xl hover:shadow-red-100/20 transition-all duration-300 h-full">
+            <!-- Image Container with Hover Effect -->
+            <div class="overflow-hidden rounded-lg aspect-video">
+              <img class="w-full h-full object-cover transform transition-all duration-500 hover:scale-110" 
+                   src="{{place.image.url}}" 
+                   alt="{{place.name}}">
+            </div>
+            
+            <!-- Content -->
+            <div class="mt-6">
+              <div class="flex items-center mb-3">
+                <h3 class="text-xl font-semibold text-gray-900 mr-3">{{place.name|capfirst}}</h3>
+                <span class="flex-shrink-0 text-red-500 text-sm font-medium px-2 py-1 rounded-full bg-red-50">
+                  ★ {{place.rating}}
+                </span>
+              </div>
+              <p class="text-gray-600 leading-relaxed line-clamp-3">
+                {{place.description|capfirst}}
+              </p>
+              <div class="mt-4 border-t border-white/20 pt-4">
+                <span class="inline-flex items-center text-red-500 text-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                  </svg>
+                  {{place.location}}
+                </span>
+              </div>
+            </div>
+          </div>
         </a>
       </div>
       {% endfor %}
@@ -31,4 +61,38 @@
   </div>
 </section>
 
+<style>
+  .glass-card {
+    transition: all 0.3s ease;
+    position: relative;
+  }
+  
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.3);
+    z-index: -1;
+  }
+
+  @keyframes slide-right {
+    0% { transform: translateX(-20px); opacity: 0; }
+    100% { transform: translateX(0); opacity: 1; }
+  }
+
+  .animate-slide-right {
+    animation: slide-right 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
 {% endblock maincontent %}

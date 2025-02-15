@@ -4,195 +4,236 @@
     Hotels
 {% endblock pagetitle %}
 
-{% block isactiveeeeeeee %}
-text-red-500
-{% endblock isactiveeeeeeee %}
+{% block isactiveeeeeeee %}text-red-500{% endblock isactiveeeeeeee %}
 
-{% block stylingInHead %}
+{% block styling %}
+<style>
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #f0f2f5 100%);
+    min-height: 100vh;
+  }
 
-body {
-    
-    {% comment %} background-color: #f0f2f5; {% endcomment %}
-    margin: 0;
-    
-}
+  .search-container {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(12px);
+    padding: 2rem;
+    margin: 2rem auto;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    animation: slideDown 0.6s ease-out;
+  }
 
-.hotel-card {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.45);
-    transition: transform 0.2s;
-}
-.hotel-card:hover {
-    transform: scale(1.02);
-}
+  .hotel-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 800px;
+  }
 
-.hotel-card h3 {
-    margin: 0;
-    font-size: 1.5em;
-    color: #333333;
-}
+  .hotel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  }
 
-.hotel-card p {
-    margin: 5px 0;
-    color: #555555;
-}
+  #city {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(236, 72, 72, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    width: 100%;
+    max-width: 400px;
+  }
 
-.hotel-card .price {
-    color: #27ae60;
-    font-weight: bold;
-    font-size: 1.1em;
-}
+  #city:focus {
+    border-color: #ec4848;
+    box-shadow: 0 0 0 3px rgba(236, 72, 72, 0.1);
+  }
 
-.hotel-card button {
-    background: #3498db;
-    color: white;
+  .hotel-card button {
+    background: linear-gradient(135deg, #ec4848 0%, #c53b3b 100%);
     border: none;
-    padding: 12px 18px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background 0.3s;
-}
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin: 0.5rem;
+  }
 
-.hotel-card button:hover {
-    background: #2980b9;
-}
+  .hotel-card button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(236, 72, 72, 0.3);
+  }
 
-#loading-spinner {
-    font-size: 18px;
-    color: #3498db;
-    margin: 20px 0;
-}
+  .rating-stars {
+    color: #ffd700;
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
 
-#city {
-    padding: 10px;
-    border: 1px solid #dcdcdc;
-    border-radius: 5px;
-    font-size: 1em;
-    margin-bottom: 20px;
-    display: block;
-}
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-#city:focus {
-    outline: none;
-    border-color: #3498db;
+  @keyframes cardEntrance {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    
-}
+  .loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #ec4848;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 2rem auto;
+  }
 
-.search-cont{
-    margin: 20px;
-}
-
-{% endblock stylingInHead %}
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+</style>
+{% endblock styling %}
 
 {% block maincontent %}
-<div class="search-cont">
-<h1 style="color: #2c3e50;">Hotel Booking in Turkey</h1>
+<div style="margin-top:90px" class="search-container">
+  <h1 class="text-3xl font-bold text-gray-800 mb-4 text-center">🏨 Hotel Booking in Turkey</h1>
+  
+  <div class="text-center">
+    <label for="city" class="block text-lg text-gray-600 mb-2">Select a City:</label>
+    <select id="city" onchange="fetchHotels()" class="mb-6">
+      <option value="IST">Istanbul</option>
+      <option value="ANK">Ankara</option>
+      <option value="IZM">Izmir</option>
+      <option value="ADA">Adana</option>
+      <option value="ANT">Antalya</option>
+    </select>
+  </div>
 
-<label for="city" style="font-size: 1.2em; color: #555;">Select a City in Turkey:</label>
-<select id="city" onchange="fetchHotels()">
-    <option value="IST">Istanbul</option>
-    <option value="ANK">Ankara</option>
-    <option value="IZM">Izmir</option>
-    <option value="ADA">Adana</option>
-    <option value="ANT">Antalya</option>
-    <!-- Add more Turkish city options as needed -->
-</select>
-<div id="results-count" style="font-size: 1.2em; margin-top: 15px; color: #555;"></div>
+  <div id="results-count" class="text-center text-gray-600 font-medium"></div>
 </div>
 
-
-<div id="hotels-list"></div>
+<div id="hotels-list" class="hotels-container"></div>
 
 <script>
-    async function fetchHotels() {
-        const city = document.getElementById('city').value;
-   
-        try {
-            const response = await fetch(`/api/hotels/?city=${city}`);
-            const data = await response.json();
-            console.log("Raw API Response:", data);  // Add this line to log the response
-   
-            if (Array.isArray(data.hotels) && data.hotels.length > 0) {
-                displayHotels(data.hotels);
-            } else {
-                document.getElementById('hotels-list').innerText = 'No hotels found or data format is incorrect.';
-            }
-        } catch (error) {
-            console.error('Error fetching hotels:', error);
-            document.getElementById('hotels-list').innerText = 'Error fetching hotels: ' + error;
-        }
-    }
-   
+  async function fetchHotels() {
+    const city = document.getElementById('city').value;
+    const hotelsList = document.getElementById('hotels-list');
+    hotelsList.innerHTML = '<div class="loading-spinner"></div>';
 
-    function displayHotels(hotels) {
-        const hotelsList = document.getElementById('hotels-list');
-        hotelsList.innerHTML = '';
-        
-        document.getElementById('results-count').innerText = `Found ${hotels.length} hotels`;
-        
-        hotels.forEach(hotel => {
-            const hotelCard = document.createElement('div');
-            hotelCard.classList.add('hotel-card');
+    try {
+      const response = await fetch(`/api/hotels/?city=${city}`);
+      const data = await response.json();
+
+      if (Array.isArray(data.hotels) && data.hotels.length > 0) {
+        displayHotels(data.hotels);
+      } else {
+        hotelsList.innerHTML = `
+          <div class="hotel-card text-center p-8 text-gray-600">
+            🏨 No hotels found in this city
+          </div>
+        `;
+      }
+    } catch (error) {
+      hotelsList.innerHTML = `
+        <div class="hotel-card text-center p-8 text-red-500">
+          ⚠️ Error loading hotels: ${error.message}
+        </div>
+      `;
+    }
+  }
+
+  function displayHotels(hotels) {
+    const hotelsList = document.getElementById('hotels-list');
+    hotelsList.innerHTML = '';
     
-            const hotelName = hotel.name || 'No name available';
-            const address = hotel.address?.countryCode || 'No address available';
-            const rating = hotel.rating || 'No rating available';
-            const latitude = hotel.geoCode?.latitude || 'N/A';
-            const longitude = hotel.geoCode?.longitude || 'N/A';
-            const isFavorite = hotel.is_favorite ? 'Remove from Favorites' : 'Add to Favorites';
-            
-            hotelCard.innerHTML = `
-                <h3>${hotelName}</h3>
-                <p><strong>Address:</strong> ${address}</p>
-                <p><strong>Rating:</strong> ${rating}</p>
-                <p><strong>Coordinates:</strong> ${latitude}, ${longitude}</p>
-                <button onclick="toggleFavorite('${hotel.hotelId}', '${hotelName}')">${isFavorite}</button>
-                <button onclick="bookHotel('${hotel.hotelId}')">Book Now</button>
-            `;
-            hotelsList.appendChild(hotelCard);
+    document.getElementById('results-count').innerHTML = `
+      🔍 Found <span class="text-red-500 font-bold">${hotels.length}</span> hotels
+    `;
+
+    hotels.forEach((hotel, index) => {
+      const hotelCard = document.createElement('div');
+      hotelCard.classList.add('hotel-card');
+      hotelCard.style.animation = `cardEntrance 0.6s ease-out ${index * 0.1}s forwards`;
+      hotelCard.style.opacity = '0';
+
+      const ratingStars = '★'.repeat(Math.round(hotel.rating)) + '☆'.repeat(5 - Math.round(hotel.rating));
+      
+      hotelCard.innerHTML = `
+        <div class="flex items-start mb-4">
+          <div class="flex-1">
+            <h3 class="text-xl font-bold text-gray-800">${hotel.name || 'Unnamed Hotel'}</h3>
+            <div class="rating-stars">${ratingStars}</div>
+            <p class="text-gray-600">
+              📍 ${hotel.address?.countryCode || 'Address not available'}
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-4">
+          <div class="text-gray-600">
+            🌐 Coordinates: ${hotel.geoCode?.latitude || 'N/A'}, ${hotel.geoCode?.longitude || 'N/A'}
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button onclick="toggleFavorite('${hotel.hotelId}', '${hotel.name}')"
+            class="flex items-center">
+            ${hotel.is_favorite ? '❤️ Remove Favorite' : '🤍 Add Favorite'}
+          </button>
+          <button onclick="bookHotel('${hotel.hotelId}')"
+            class="flex items-center">
+            🏷️ Book Now
+          </button>
+        </div>
+      `;
+
+      hotelsList.appendChild(hotelCard);
+    });
+  }
+
+  function bookHotel(hotelId) {
+    alert('Booking hotel with ID: ' + hotelId);
+}
+
+
+async function toggleFavorite(hotelId, hotelName) {
+    const url = '/api/favorites/toggle/';
+    const requestData = { hotel_id: hotelId, hotel_name: hotelName };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token if necessary
+            },
+            body: JSON.stringify(requestData)
         });
+
+        const result = await response.json();
+        alert(result.message); // Notify user of success or error
+
+        fetchHotels();  // Refresh the hotel list to update the favorite status
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
+        alert('Failed to update favorite status.');
     }
-    
-    
+}
 
-    function bookHotel(hotelId) {
-        alert('Booking hotel with ID: ' + hotelId);
-    }
-
-    
-    async function toggleFavorite(hotelId, hotelName) {
-        const url = '/api/favorites/toggle/';
-        const requestData = { hotel_id: hotelId, hotel_name: hotelName };
-    
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token if necessary
-                },
-                body: JSON.stringify(requestData)
-            });
-    
-            const result = await response.json();
-            alert(result.message); // Notify user of success or error
-    
-            fetchHotels();  // Refresh the hotel list to update the favorite status
-        } catch (error) {
-            console.error('Error toggling favorite:', error);
-            alert('Failed to update favorite status.');
-        }
-    }
-    
-
-    fetchHotels();
-
-    
+  // Keep existing toggleFavorite and bookHotel functions
 </script>
-
 {% endblock maincontent %}
+
+
+

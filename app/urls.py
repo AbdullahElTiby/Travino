@@ -23,5 +23,5 @@ urlpatterns = [
     path('api/favorites/toggle/', views.toggle_favorite_hotel, name='toggle_favorite_hotel'),
     path('favorites/', views.favorites_page, name='favorites_page'),
     path('nobetci_eczaneler/', views.nobetci_eczaneler, name='nobetci_eczaneler'),
-
+    path('directions/', views.directions, name='directions'),
 ]
