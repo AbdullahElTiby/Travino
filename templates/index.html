@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block isactive %}text-red-500{% endblock isactive %}
 
 {% block pagetitle %}
-    Home
+{% blocktrans %}Home{% endblocktrans %}
 {% endblock pagetitle %}
 
 {% block styling %}

@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -6,15 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block pagetitle %}{% endblock pagetitle %} | Travino</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.2/gsap.min.js"></script>
-    <link rel="icon" href="{{ MEDIA_URL }}{% static 'app/icon png.png' %}" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -53,41 +46,6 @@
             visibility: visible;
         }
 
-        .submenu {
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-        }
-
-        .nav-item:hover .submenu {
-            transform: translateY(0);
-        }
-
-        /* Enhanced button styles */
-        .custom-button {
-            position: relative;
-            background: linear-gradient(45deg, #EF4444, #DC2626);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .custom-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.2));
-            transition: all 0.5s ease;
-        }
-
-        .custom-button:hover::before {
-            left: 100%;
-        }
-
         /* Navbar glass effect when scrolled */
         .navbar-scrolled {
             background: rgba(255, 255, 255, 0.8);
@@ -95,14 +53,88 @@
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* Card hover effects */
-        .hover-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Mobile Bottom Navigation Styles */
+        .mobile-nav {
+            display: none;
         }
 
-        .hover-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        @media (max-width: 768px) {
+            .mobile-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(10px);
+                border-top: 1px solid #e5e7eb;
+                padding: 0.75rem 1rem;
+                z-index: 50;
+            }
+
+            .mobile-nav-list {
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                width: 100%;
+            }
+
+            .mobile-nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: #6b7280;
+                font-size: 0.75rem;
+            }
+
+            .mobile-nav-item.active {
+                color: #EF4444;
+            }
+
+            .mobile-nav-item svg {
+                width: 24px;
+                height: 24px;
+                margin-bottom: 4px;
+            }
+
+            main {
+                padding-bottom: 5rem;
+            }
+
+            .md\:flex {
+                display: none !important;
+            }
+        }
+
+        /* Add these styles for submenu */
+        .submenu {
+            transform: translateY(10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .submenu.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Mobile services submenu */
+        .mobile-services-submenu {
+            display: none;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            padding: 0.5rem 0;
+            
+        }
+
+        .mobile-services-submenu.active {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            /* Previous mobile styles remain */
         }
 
         {% block styling %}{% endblock styling %}
@@ -110,7 +142,7 @@
     {% block headthings %}{% endblock headthings %}
 </head>
 <body class="min-h-screen flex flex-col">
-    <!-- Enhanced Navbar -->
+    <!-- Desktop Navbar -->
     <nav class="fixed w-full z-50 transition-all duration-300" id="main-nav">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between items-center h-16">
@@ -126,33 +158,32 @@
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
                     <a href="{% url 'home' %}" class="nav-link text-gray-700 hover:text-red-500">Home</a>
-                    
+                    <a href="{% url 'aitg' %}" class="nav-link text-gray-700 hover:text-red-500">AI Tour Guide</a>
+                    <a href="{% url 'tr_in_blocks' %}" class="nav-link text-gray-700 hover:text-red-500">TR in blocks</a>
                     <div class="relative">
-                        <button id="servicesButton" class="nav-link text-gray-700 hover:text-red-500 focus:outline-none">
-                            Services
+                        <button id="servicesButton" class="nav-link text-gray-700 hover:text-red-500 flex items-center space-x-1">
+                            <span>Services</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                         </button>
-                        <div id="submenu" class="submenu absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg opacity-0 invisible transition-all duration-300">
+                        <div id="desktopSubmenu" class="submenu absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
                             <a href="{% url 'nobetci_eczaneler' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                Nobetci Eczaneler
+                                {% blocktrans %}Pharmacy on duty{% endblocktrans %}
                             </a>
                             <a href="{% url 'hotel_booking_page' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                Hotels
+                                {% blocktrans %}Hotels{% endblocktrans %}
                             </a>
                             <a href="{% url 'directions' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                Directions
+                                {% blocktrans %}Directions{% endblocktrans %}
                             </a>
                         </div>
                     </div>
-
-                    <a href="{% url 'aitg' %}" class="nav-link text-gray-700 hover:text-red-500">AI Tour Guide</a>
-                    <a href="{% url 'tr_in_blocks' %}" class="nav-link text-gray-700 hover:text-red-500">TR in blocks</a>
-                    <a href="{% url 'pricing' %}" class="nav-link text-gray-700 hover:text-red-500">Pricing</a>
-                    <a href="{% url 'about' %}" class="nav-link text-gray-700 hover:text-red-500">About</a>
-                    <a href="{% url 'contact' %}" class="nav-link text-gray-700 hover:text-red-500">Contact</a>
+                    <a href="{% url 'pricing' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}Pricing{% endblocktrans %}</a>
+                    <a href="{% url 'about' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}About{% endblocktrans %}</a>
+                    <a href="{% url 'contact' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}Contact{% endblocktrans %}</a>
                 </div>
 
-                <!-- User Menu -->
-                <div class="relative">
+                <!-- User Menu (Desktop) -->
+                <div class="relative hidden md:block">
                     <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none">
                         <div class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-red-500 ring-offset-2">
                             {% if user.is_authenticated %}
@@ -169,35 +200,16 @@
                                 <p class="text-sm font-medium text-gray-900">{{user.name|capfirst}}</p>
                                 <p class="text-sm text-gray-500 truncate">{{user.email}}</p>
                             </div>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                My Scans
-                            </a>
-                            <a href="{% url 'favorites_page' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                My Favorites
-                            </a>
-                            <a href="{% url 'settings' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                Settings
-                            </a>
-                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                Sign out
-                            </a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">{% blocktrans %}My Scans{% endblocktrans %}</a>
+                            <a href="{% url 'favorites_page' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">{% blocktrans %}My Favorites{% endblocktrans %}</a>
+                            <a href="{% url 'settings' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">{% blocktrans %}Settings{% endblocktrans %}</a>
+                            <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">{% blocktrans %}Sign out{% endblocktrans %}</a>
                         {% else %}
-                            <a href="{% url 'login' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                Sign in
-                            </a>
-                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">
-                                Sign up
-                            </a>
+                            <a href="{% url 'login' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">{% blocktrans %}Sign in{% endblocktrans %}</a>
+                            <a href="{% url 'signup' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-50 hover:text-red-500">{% blocktrans %}Sign up{% endblocktrans %}</a>
                         {% endif %}
                     </div>
                 </div>
-
-                <!-- Mobile menu button -->
-                <button class="md:hidden" id="mobile-menu-button">
-                    <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
             </div>
         </div>
     </nav>
@@ -207,8 +219,7 @@
         {% block maincontent %}{% endblock maincontent %}
     </main>
 
-    <!-- Enhanced Footer -->
-    <footer class="bg-gray-100">
+    <footer class="bg-gray-100 hidden md:block">
         <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="space-y-8">
@@ -217,7 +228,7 @@
                         <span class="text-xl font-bold">Travino</span>
                     </div>
                     <p class="text-gray-500 text-sm">
-                        Your ultimate travel companion for exploring Turkey.
+                        {% blocktrans %}Your ultimate travel companion for exploring Turkey.{% endblocktrans %}
                     </p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-red-500 transition-colors">
@@ -244,25 +255,25 @@
                 <div>
                     <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Navigation</h3>
                     <ul class="mt-4 space-y-4">
-                        <li><a href="{% url 'home' %}" class="text-gray-500 hover:text-red-500 transition-colors">Home</a></li>
-                        <li><a href="{% url 'aitg' %}" class="text-gray-500 hover:text-red-500 transition-colors">AI Tour Guide</a></li>
-                        <li><a href="{% url 'tr_in_blocks' %}" class="text-gray-500 hover:text-red-500 transition-colors">TR in Blocks</a></li>
-                        <li><a href="{% url 'pricing' %}" class="text-gray-500 hover:text-red-500 transition-colors">Pricing</a></li>
+                        <li><a href="{% url 'home' %}" class="text-gray-500 hover:text-red-500 transition-colors">{% blocktrans %}Home{% endblocktrans %}</a></li>
+                        <li><a href="{% url 'aitg' %}" class="text-gray-500 hover:text-red-500 transition-colors">{% blocktrans %}AI Tour Guide{% endblocktrans %}</a></li>
+                        <li><a href="{% url 'tr_in_blocks' %}" class="text-gray-500 hover:text-red-500 transition-colors">{% blocktrans %}TR in Blocks{% endblocktrans %}</a></li>
+                        <li><a href="{% url 'pricing' %}" class="text-gray-500 hover:text-red-500 transition-colors">{% blocktrans %}Pricing{% endblocktrans %}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Legal</h3>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">{% blocktrans %}Legal{% endblocktrans %}</h3>
                     <ul class="mt-4 space-y-4">
-                        <li><a href="#" class="text-gray-500 hover:text-red-500 transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-500 hover:text-red-500 transition-colors">Terms of Service</a></li>
-                        <li><a href="{% url 'contact' %}" class="text-gray-500 hover:text-red-500 transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-red-500 transition-colors">{% blocktrans %}Privacy Policy{% endblocktrans %}</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-red-500 transition-colors">{% blocktrans %}Terms of Service{% endblocktrans %}</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-gray-500 hover:text-red-500 transition-colors">{% blocktrans %}Contact{% endblocktrans %}</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">Newsletter</h3>
-                    <p class="mt-4 text-gray-500 text-sm">Subscribe to our newsletter for the latest updates.</p>
+                    <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">{% blocktrans %}Newsletter{% endblocktrans %}</h3>
+                    <p class="mt-4 text-gray-500 text-sm">{% blocktrans %}Subscribe to our newsletter for the latest updates.{% endblocktrans %}</p>
                     <form class="mt-4">
                         <div class="flex flex-col space-y-3">
                             <input
@@ -270,8 +281,8 @@
                                 placeholder="Enter your email"
                                 class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
                             >
-                            <button type="submit" class="custom-button">
-                                Subscribe
+                            <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">
+                                {% blocktrans %}Subscribe{% endblocktrans %}
                             </button>
                         </div>
                     </form>
@@ -285,13 +296,51 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav">
+        <div class="mobile-nav-list">
+            <a href="{% url 'home' %}" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>{% blocktrans %}Home{% endblocktrans %}</span>
+            </a>
+            {% comment %} <a href="{% url 'aitg' %}" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="1 6 8 3 16 6 23 3 23 18 16 21 8 18 1 21 1 6"/>
+                    <line x1="8" y1="3" x2="8" y2="18"/>
+                    <line x1="16" y1="6" x2="16" y2="21"/>
+                </svg>
+                <span>Guide</span>
+            </a> {% endcomment %}
+            
+            <a href="{% url 'tr_in_blocks' %}" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                <span>{% blocktrans %}Blocks{% endblocktrans %}</span>
+            </a>
+
+            {% comment %} <button id="mobileServicesButton" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                <span>Services</span>
+            </button> {% endcomment %}
+            <a href="{% url 'about' %}" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                <span>{% blocktrans %}About{% endblocktrans %}</span>
+            </a>
+            <a href="{% url 'pricing' %}" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 19a2.5 2.5 0 0 1 0-5"/><path d="M19.5 14a2.5 2.5 0 0 1 0 5"/><path d="M2.5 14v-3a6.5 6.5 0 0 1 13 0v3"/><path d="M19.5 14v-3a6.5 6.5 0 0 0-13 0v3"/></svg>
+                <span>{% blocktrans %}Pricing{% endblocktrans %}</span>
+            </a>
+            <a href="{% url 'contact' %}" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                <span>{% blocktrans %}Contact{% endblocktrans %}</span>
+            </a>
+            <button id="mobile-user-menu-button" class="mobile-nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+                <span>{% blocktrans %}Menu{% endblocktrans %}</span>
+            </button>
+        </div>
+    </nav>
 
     <script>
-        // Initialize AOS
-        AOS.init();
-
         // Navbar scroll effect
         const navbar = document.getElementById('main-nav');
         window.addEventListener('scroll', () => {
@@ -302,12 +351,12 @@
             }
         });
 
-        // User dropdown toggle
+        // Desktop User dropdown toggle
         const userMenuButton = document.getElementById('user-menu-button');
         const userDropdown = document.getElementById('user-dropdown');
         let isUserMenuOpen = false;
 
-        userMenuButton.addEventListener('click', () => {
+        userMenuButton?.addEventListener('click', () => {
             isUserMenuOpen = !isUserMenuOpen;
             if (isUserMenuOpen) {
                 userDropdown.classList.add('active');
@@ -318,68 +367,94 @@
 
         // Close dropdown when clicking outside
         document.addEventListener('click', (event) => {
-            if (!userMenuButton.contains(event.target) && !userDropdown.contains(event.target)) {
+            if (!userMenuButton?.contains(event.target) && !userDropdown?.contains(event.target)) {
                 isUserMenuOpen = false;
-                userDropdown.classList.remove('active');
+                userDropdown?.classList.remove('active');
             }
         });
 
-        // Mobile menu
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.createElement('div');
-        mobileMenu.className = 'md:hidden fixed inset-0 bg-white z-40 transform transition-transform duration-300 translate-x-full';
-        document.body.appendChild(mobileMenu);
+        // Highlight active nav item
+        const mobileNavItems = document.querySelectorAll('.mobile-nav-item');
+        const currentPath = window.location.pathname;
+        
+        mobileNavItems.forEach(item => {
+            const itemPath = item.getAttribute('href');
+            if (itemPath && currentPath.includes(itemPath)) {
+                item.classList.add('active');
+            }
+        });
 
-        mobileMenuButton.addEventListener('click', () => {
-            mobileMenu.classList.toggle('translate-x-full');
-            mobileMenu.innerHTML = `
-                <div class="p-4">
-                    <div class="flex justify-end">
-                        <button class="mobile-close-button">
-                            <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
+        // Mobile user menu
+        const mobileUserMenuButton = document.getElementById('mobile-user-menu-button');
+        mobileUserMenuButton?.addEventListener('click', () => {
+            const dropdown = document.createElement('div');
+            dropdown.className = 'fixed inset-0 bg-black bg-opacity-50 z-50';
+            dropdown.innerHTML = `
+                <div class="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-lg font-semibold">Menu</h3>
+                        <button class="mobile-menu-close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                     </div>
-                    <div class="mt-8 space-y-4">
-                        <a href="{% url 'home' %}" class="block text-lg text-gray-700 hover:text-red-500">Home</a>
-                        <a href="{% url 'aitg' %}" class="block text-lg text-gray-700 hover:text-red-500">AI Tour Guide</a>
-                        <a href="{% url 'tr_in_blocks' %}" class="block text-lg text-gray-700 hover:text-red-500">TR in blocks</a>
-                        <a href="{% url 'pricing' %}" class="block text-lg text-gray-700 hover:text-red-500">Pricing</a>
-                        <a href="{% url 'about' %}" class="block text-lg text-gray-700 hover:text-red-500">About</a>
-                        <a href="{% url 'contact' %}" class="block text-lg text-gray-700 hover:text-red-500">Contact</a>
-                    </div>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'aitg' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Your Ai Tour guide{% endblocktrans %}</a>
+                        <a href="{% url 'nobetci_eczaneler' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Pharmacy on duty{% endblocktrans %}</a>
+                        <a href="{% url 'directions' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Directions{% endblocktrans %}</a>
+                        <a href="#" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}My Scans{% endblocktrans %}</a>
+                        <a href="{% url 'favorites_page' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}My Favorites{% endblocktrans %}</a>
+                        <a href="{% url 'settings' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Settings{% endblocktrans %}</a>
+                        <a href="{% url 'logout' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Sign out{% endblocktrans %}</a>
+                    {% else %}
+                        <a href="{% url 'nobetci_eczaneler' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Pharmacy on duty{% endblocktrans %}</a>
+                        <a href="{% url 'login' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Sign in{% endblocktrans %}</a>
+                        <a href="{% url 'signup' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Sign up{% endblocktrans %}</a>
+                    {% endif %}
                 </div>
             `;
+            document.body.appendChild(dropdown);
 
-            const closeButton = mobileMenu.querySelector('.mobile-close-button');
-            closeButton.addEventListener('click', () => {
-                mobileMenu.classList.add('translate-x-full');
+            // Close mobile menu
+            const closeButton = dropdown.querySelector('.mobile-menu-close');
+            closeButton?.addEventListener('click', () => {
+                document.body.removeChild(dropdown);
+            });
+
+            // Close when clicking outside
+            dropdown.addEventListener('click', (e) => {
+                if (e.target === dropdown) {
+                    document.body.removeChild(dropdown);
+                }
             });
         });
 
-        // Prevent right-click and keyboard shortcuts
-        document.addEventListener("contextmenu", (e) => e.preventDefault());
-        document.onkeydown = (e) => {
-            if (e.keyCode === 123 || 
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
-                (e.ctrlKey && e.keyCode === 85)) {
-                return false;
-            }
-        };
+        const servicesButton = document.getElementById('servicesButton');
+        const desktopSubmenu = document.getElementById('desktopSubmenu');
 
-        document.getElementById('servicesButton').addEventListener('click', function () {
-            let submenu = document.getElementById('submenu');
-            submenu.classList.toggle('opacity-100');
-            submenu.classList.toggle('visible');
-            submenu.classList.toggle('opacity-0');
-            submenu.classList.toggle('invisible');
+        servicesButton?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            desktopSubmenu.classList.toggle('active');
         });
+
+        // Close desktop submenu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!servicesButton?.contains(event.target) && !desktopSubmenu?.contains(event.target)) {
+                desktopSubmenu?.classList.remove('active');
+            }
+        });
+
+        // Mobile Services Submenu
+        const mobileServicesButton = document.getElementById('mobileServicesButton');
+        const mobileServicesSubmenu = document.getElementById('mobileServicesSubmenu');
+
+        mobileServicesButton?.addEventListener('click', () => {
+            mobileServicesSubmenu.classList.toggle('active');
+            // Add active state to button
+            mobileServicesButton.classList.toggle('text-red-500');
+        });
+
     </script>
 
-    {% block DS %}{% endblock DS %}
     {% block script %}{% endblock script %}
-    {% block scripts %}{% endblock scripts %}
-
 </body>
 </html>

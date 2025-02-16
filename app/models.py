@@ -4,6 +4,7 @@ from PIL import Image
 from django.core.files.base import ContentFile
 from io import BytesIO
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 
 def resize_image(image, size=(1600, 900)):
@@ -32,7 +33,7 @@ class CustomUser(AbstractUser):
         return self.username
     
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name=_("Name"))
     description = models.TextField()
     # suggestion = models.TextField(default='suggestions.')
     image = models.ImageField(upload_to='category_pics', default='default.png')

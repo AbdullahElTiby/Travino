@@ -13,6 +13,7 @@ import json
 from huggingface_hub import InferenceClient
 from gtts import gTTS
 import os
+from django.utils.translation import gettext as _
 
 client = InferenceClient(api_key="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")
 chat_client = InferenceClient(api_key="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")
@@ -41,10 +42,11 @@ def home(request):
 
 @login_required(login_url='login')
 def aitg(request):
-    if request.user.is_authenticated and getattr(request.user, 'is_subscribed', True):  
-        return render(request, 'aitg.html')
-    else:
-        return redirect('pricing')
+    # if request.user.is_authenticated and getattr(request.user, 'is_subscribed', True):  
+    #     return render(request, 'aitg.html')
+    # else:
+    #     return redirect('pricing')
+    return render(request,'aitg.html')
 
 
 def pricing(request):
