@@ -137,6 +137,36 @@
             /* Previous mobile styles remain */
         }
 
+        /* Language switcher styles */
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: none;
+}
+
+.language-switcher {
+    position: relative;
+    min-width: 120px;
+}
+
+.language-switcher::after {
+    content: "⌄";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #6b7280;
+}
+
+.group:hover .language-switcher::after {
+    color: #EF4444;
+}
+
         {% block styling %}{% endblock styling %}
     </style>
     {% block headthings %}{% endblock headthings %}
@@ -157,12 +187,12 @@
 
                 <!-- Desktop Navigation -->
                 <div class="hidden md:flex items-center space-x-8">
-                    <a href="{% url 'home' %}" class="nav-link text-gray-700 hover:text-red-500">Home</a>
-                    <a href="{% url 'aitg' %}" class="nav-link text-gray-700 hover:text-red-500">AI Tour Guide</a>
-                    <a href="{% url 'tr_in_blocks' %}" class="nav-link text-gray-700 hover:text-red-500">TR in blocks</a>
+                    <a href="{% url 'home' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}Home{% endblocktrans %}</a>
+                    <a href="{% url 'aitg' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}AI Tour Guide{% endblocktrans %}</a>
+                    <a href="{% url 'tr_in_blocks' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}TR in blocks{% endblocktrans %}</a>
                     <div class="relative">
                         <button id="servicesButton" class="nav-link text-gray-700 hover:text-red-500 flex items-center space-x-1">
-                            <span>Services</span>
+                            <span>{% blocktrans %}Services{% endblocktrans %}</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
                         </button>
                         <div id="desktopSubmenu" class="submenu absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg">
@@ -181,7 +211,35 @@
                     <a href="{% url 'about' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}About{% endblocktrans %}</a>
                     <a href="{% url 'contact' %}" class="nav-link text-gray-700 hover:text-red-500">{% blocktrans %}Contact{% endblocktrans %}</a>
                 </div>
-
+                <!-- Add this near the user menu in the desktop navbar -->
+<div class="relative hidden md:block">
+    <form action="{% url 'set_language' %}" method="post" class="ml-4">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ redirect_to }}">
+        <div class="relative group">
+            <select name="language" onchange="this.form.submit()" 
+                    class="appearance-none bg-transparent border-none text-gray-700 hover:text-red-500 
+                           pr-6 py-2 pl-3 rounded-md cursor-pointer focus:outline-none 
+                           transition-colors duration-200">
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% for code, name in LANGUAGES %}
+                    <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                        {{ name|title }}
+                    </option>
+                {% endfor %}
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+                <svg class="w-4 h-4 text-gray-500 group-hover:text-red-500 transition-colors" 
+                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" 
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" 
+                          clip-rule="evenodd"/>
+                </svg>
+            </div>
+        </div>
+    </form>
+</div>
                 <!-- User Menu (Desktop) -->
                 <div class="relative hidden md:block">
                     <button id="user-menu-button" class="flex items-center space-x-2 focus:outline-none">
@@ -397,6 +455,29 @@
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                     </div>
+                           <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">{% trans "Menu" %}</h3>
+            <button class="mobile-menu-close">...</button>
+        </div>
+        
+        <!-- Add language switcher here -->
+        <div class="mb-4 px-2">
+            <form action="{% url 'set_language' %}" method="post">
+                {% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}">
+                <select name="language" onchange="this.form.submit()"
+                        class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 
+                               focus:border-red-500 appearance-none bg-white">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% for code, name in LANGUAGES %}
+                        <option value="{{ code }}" {% if code == LANGUAGE_CODE %}selected{% endif %}>
+                            {{ name|title }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
                     {% if user.is_authenticated %}
                         <a href="{% url 'aitg' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Your Ai Tour guide{% endblocktrans %}</a>
                         <a href="{% url 'nobetci_eczaneler' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Pharmacy on duty{% endblocktrans %}</a>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-02-16 18:01+0300\n"
+"POT-Creation-Date: 2025-02-16 19:55+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1514,102 +1514,111 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#: templates/base.html:170 templates/base.html:404 templates/base.html:411
+#: templates/base.html:190 templates/base.html:316 templates/base.html:362
+#: templates/index.html:6
+msgid "Home"
+msgstr "Ana Sayfa"
+
+#: templates/base.html:191 templates/base.html:317
+msgid "AI Tour Guide"
+msgstr "AI Tur Rehberi"
+
+#: templates/base.html:192
+msgid "TR in blocks"
+msgstr "TR Bloklar halinde"
+
+#: templates/base.html:195
+msgid "Services"
+msgstr "Hizmetler"
+
+#: templates/base.html:200 templates/base.html:485 templates/base.html:492
 msgid "Pharmacy on duty"
 msgstr "Nobetci Eczane"
 
-#: templates/base.html:173
+#: templates/base.html:203
 msgid "Hotels"
-msgstr ""
+msgstr "Oteller"
 
-#: templates/base.html:176 templates/base.html:405
+#: templates/base.html:206 templates/base.html:486
 msgid "Directions"
-msgstr ""
+msgstr "Yol tarifi"
 
-#: templates/base.html:180 templates/base.html:261 templates/base.html:332
+#: templates/base.html:210 templates/base.html:319 templates/base.html:390
 msgid "Pricing"
-msgstr ""
+msgstr "Fiyatlandırma"
 
-#: templates/base.html:181 templates/base.html:328
+#: templates/base.html:211 templates/base.html:386
 msgid "About"
-msgstr ""
+msgstr "Hakkında"
 
-#: templates/base.html:182 templates/base.html:270 templates/base.html:336
+#: templates/base.html:212 templates/base.html:328 templates/base.html:394
 msgid "Contact"
-msgstr ""
+msgstr "Temas etmek"
 
-#: templates/base.html:203 templates/base.html:406
+#: templates/base.html:261 templates/base.html:487
 msgid "My Scans"
-msgstr ""
+msgstr "Taramalarım"
 
-#: templates/base.html:204 templates/base.html:407
+#: templates/base.html:262 templates/base.html:488
 msgid "My Favorites"
-msgstr ""
+msgstr "Favorilerim"
 
-#: templates/base.html:205 templates/base.html:408
+#: templates/base.html:263 templates/base.html:489
 msgid "Settings"
-msgstr ""
+msgstr "Ayarlar"
 
-#: templates/base.html:206 templates/base.html:409
+#: templates/base.html:264 templates/base.html:490
 msgid "Sign out"
-msgstr ""
+msgstr "oturumu Kapat"
 
-#: templates/base.html:208 templates/base.html:412
+#: templates/base.html:266 templates/base.html:493
 msgid "Sign in"
-msgstr ""
+msgstr "Giriş yap"
 
-#: templates/base.html:209 templates/base.html:413
+#: templates/base.html:267 templates/base.html:494
 msgid "Sign up"
-msgstr ""
+msgstr "Üye olmak"
 
-#: templates/base.html:231
+#: templates/base.html:289
 msgid "Your ultimate travel companion for exploring Turkey."
-msgstr ""
-
-#: templates/base.html:258 templates/base.html:304 templates/index.html:6
-msgid "Home"
-msgstr "Ev"
-
-#: templates/base.html:259
-msgid "AI Tour Guide"
-msgstr ""
-
-#: templates/base.html:260
-msgid "TR in Blocks"
-msgstr ""
-
-#: templates/base.html:266
-msgid "Legal"
-msgstr ""
-
-#: templates/base.html:268
-msgid "Privacy Policy"
-msgstr ""
-
-#: templates/base.html:269
-msgid "Terms of Service"
-msgstr ""
-
-#: templates/base.html:275
-msgid "Newsletter"
-msgstr ""
-
-#: templates/base.html:276
-msgid "Subscribe to our newsletter for the latest updates."
-msgstr ""
-
-#: templates/base.html:285
-msgid "Subscribe"
-msgstr ""
+msgstr "Türkiye'yi keşfetmek için en iyi seyahat arkadaşınız."
 
 #: templates/base.html:318
+msgid "TR in Blocks"
+msgstr "TR Bloklar halinde"
+
+#: templates/base.html:324
+msgid "Legal"
+msgstr "Yasal"
+
+#: templates/base.html:326
+msgid "Privacy Policy"
+msgstr "Gizlilik Politikası"
+
+#: templates/base.html:327
+msgid "Terms of Service"
+msgstr "Hizmet Şartları"
+
+#: templates/base.html:333
+msgid "Newsletter"
+msgstr "Haber Bülteni"
+
+#: templates/base.html:334
+msgid "Subscribe to our newsletter for the latest updates."
+msgstr "En son güncellemeler için bültenimize abone olun."
+
+#: templates/base.html:343
+msgid "Subscribe"
+msgstr "Abone"
+
+#: templates/base.html:376
 msgid "Blocks"
-msgstr ""
+msgstr "Bloklar"
 
-#: templates/base.html:340
+#: templates/base.html:398 templates/base.html:461
 msgid "Menu"
-msgstr ""
+msgstr "Menü"
 
-#: templates/base.html:403
+#: templates/base.html:484
 msgid "Your Ai Tour guide"
-msgstr ""
+msgstr "Yapay Zeka Tur Rehberiniz"
