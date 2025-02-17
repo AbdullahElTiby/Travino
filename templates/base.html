@@ -482,12 +482,14 @@ select {
                         <a href="{% url 'aitg' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Your Ai Tour guide{% endblocktrans %}</a>
                         <a href="{% url 'nobetci_eczaneler' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Pharmacy on duty{% endblocktrans %}</a>
                         <a href="{% url 'directions' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Directions{% endblocktrans %}</a>
+                        <a href="{% url 'hotel_booking_page' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Hotels{% endblocktrans %}</a>
                         <a href="#" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}My Scans{% endblocktrans %}</a>
                         <a href="{% url 'favorites_page' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}My Favorites{% endblocktrans %}</a>
                         <a href="{% url 'settings' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Settings{% endblocktrans %}</a>
                         <a href="{% url 'logout' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Sign out{% endblocktrans %}</a>
                     {% else %}
                         <a href="{% url 'nobetci_eczaneler' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Pharmacy on duty{% endblocktrans %}</a>
+                        <a href="{% url 'directions' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Directions{% endblocktrans %}</a>
                         <a href="{% url 'login' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Sign in{% endblocktrans %}</a>
                         <a href="{% url 'signup' %}" class="block py-3 text-gray-700 hover:text-red-500">{% blocktrans %}Sign up{% endblocktrans %}</a>
                     {% endif %}

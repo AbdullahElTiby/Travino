@@ -44,13 +44,22 @@
               <p class="text-gray-600 leading-relaxed line-clamp-3">
                 {{place.description|capfirst}}
               </p>
-              <div class="mt-4 border-t border-white/20 pt-4">
-                <span class="inline-flex items-center text-red-500 text-sm">
+              <div class="mt-4 border-t border-white/20 pt-4 flex justify-between items-center">
+                {% comment %} <span class="inline-flex items-center text-red-500 text-sm">
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
                   </svg>
                   {{place.location}}
-                </span>
+                </span> {% endcomment %}
+                <button 
+                  onclick="getDirections('{{place.name|addslashes}}')" 
+                  class="directions-btn text-sm bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-3 rounded-lg flex items-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    <path fill-rule="evenodd" d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                  </svg>
+                  Directions
+                </button>
               </div>
             </div>
           </div>
@@ -94,5 +103,95 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  .directions-btn {
+    opacity: 0.95;
+    transition: all 0.3s ease;
+  }
+
+  .directions-btn:hover {
+    opacity: 1;
+  }
+
+  .loading-spinner {
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 </style>
+
+<script>
+  function getDirections(placeName) {
+    // Stop event propagation (prevents the link to detail page from activating)
+    event.preventDefault();
+    event.stopPropagation();
+    
+    // Change button to loading state
+    const btn = event.currentTarget;
+    const originalContent = btn.innerHTML;
+    btn.innerHTML = '<div class="loading-spinner"></div>';
+    btn.disabled = true;
+    
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        // Success callback
+        function(position) {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+          const userLocation = `${userLat},${userLng}`;
+          
+          // Create Google Maps Directions URL with place name as destination
+          const destination = encodeURIComponent(placeName);
+          
+          const directionsUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(userLocation)}&destination=${destination}&travelmode=driving`;
+          
+          // Open the URL in a new tab
+          window.open(directionsUrl, '_blank');
+          
+          // Reset button
+          btn.innerHTML = originalContent;
+          btn.disabled = false;
+        },
+        // Error callback
+        function(error) {
+          console.error("Error getting location:", error);
+          
+          // If geolocation fails, still enable directions but without origin
+          const destination = encodeURIComponent(placeName);
+          
+          const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+          window.open(directionsUrl, '_blank');
+          
+          // Reset button
+          btn.innerHTML = originalContent;
+          btn.disabled = false;
+        },
+        // Options
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0
+        }
+      );
+    } else {
+      // Fallback for browsers that don't support geolocation
+      const destination = encodeURIComponent(placeName);
+      
+      const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${destination}&travelmode=driving`;
+      window.open(directionsUrl, '_blank');
+      
+      // Reset button
+      btn.innerHTML = originalContent;
+      btn.disabled = false;
+    }
+  }
+</script>
 {% endblock maincontent %}

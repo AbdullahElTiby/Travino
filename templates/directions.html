@@ -117,6 +117,46 @@
         25% { transform: translateX(-8px); }
         75% { transform: translateX(8px); }
     }
+    
+    .location-input-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .location-input-container input {
+        flex: 1;
+    }
+    
+    .locate-me-btn {
+        background: rgba(236, 72, 72, 0.15);
+        color: #ec4848;
+        padding: 12px;
+        min-width: 42px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .locate-me-btn:hover {
+        background: rgba(236, 72, 72, 0.25);
+    }
+    
+    .loading-spinner {
+        border: 2px solid rgba(236, 72, 72, 0.1);
+        border-top: 2px solid #ec4848;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 </style>
 {% endblock styling %}
 
@@ -130,7 +170,12 @@
 
     <div class="input-group">
         <label class="input-label">Start Location</label>
-        <input type="text" id="origin" placeholder="Current location or address">
+        <div class="location-input-container">
+            <input type="text" id="origin" placeholder="Current location or address">
+            <button id="locateMe" class="locate-me-btn" title="Use my current location">
+                <i>📍</i>
+            </button>
+        </div>
     </div>
 
     <div class="input-group">
@@ -216,7 +261,74 @@
         document.getElementById('resultDirections').innerHTML = '';
     }
 
+    function getCurrentLocation() {
+        const locateBtn = document.getElementById('locateMe');
+        const originInput = document.getElementById('origin');
+        const resultDiv = document.getElementById('resultDirections');
+
+        if (navigator.geolocation) {
+            // Change button to loading state
+            locateBtn.innerHTML = '<div class="loading-spinner"></div>';
+            locateBtn.disabled = true;
+            
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Convert coordinates to an address string
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    originInput.value = `${lat},${lng}`;
+                    
+                    // Optionally, you could use a reverse geocoding service here
+                    // to convert coordinates to an address, but that would require an API key
+                    
+                    // Reset button
+                    locateBtn.innerHTML = '<i>📍</i>';
+                    locateBtn.disabled = false;
+                },
+                (error) => {
+                    // Handle errors
+                    resultDiv.innerHTML = `
+                        <div class="error-message">
+                            ⚠️ ${getGeolocationErrorMessage(error)}
+                        </div>
+                    `;
+                    
+                    // Reset button
+                    locateBtn.innerHTML = '<i>📍</i>';
+                    locateBtn.disabled = false;
+                },
+                { 
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        } else {
+            resultDiv.innerHTML = `
+                <div class="error-message">
+                    ⚠️ Geolocation is not supported by this browser
+                </div>
+            `;
+        }
+    }
+
+    function getGeolocationErrorMessage(error) {
+        switch(error.code) {
+            case error.PERMISSION_DENIED:
+                return "Location permission was denied. Please allow location access to use this feature.";
+            case error.POSITION_UNAVAILABLE:
+                return "Location information is unavailable at this time.";
+            case error.TIMEOUT:
+                return "The request to get your location timed out.";
+            case error.UNKNOWN_ERROR:
+                return "An unknown error occurred while getting your location.";
+            default:
+                return "Could not get your current location.";
+        }
+    }
+
     document.getElementById('generateDirections').addEventListener('click', generateDirections);
+    document.getElementById('locateMe').addEventListener('click', getCurrentLocation);
     document.querySelectorAll('input').forEach(input => {
         input.addEventListener('keypress', e => e.key === 'Enter' && generateDirections());
     });
