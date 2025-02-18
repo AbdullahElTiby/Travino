@@ -24,4 +24,5 @@ urlpatterns = [
     path('favorites/', views.favorites_page, name='favorites_page'),
     path('nobetci_eczaneler/', views.nobetci_eczaneler, name='nobetci_eczaneler'),
     path('directions/', views.directions, name='directions'),
+    path('api/places/<int:place_id>/increment-visits/', views.increment_visits, name='increment_visits'),
 ]

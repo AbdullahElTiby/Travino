@@ -7,64 +7,51 @@
 {% block maincontent %}
 <section class="body-font bg-gradient-to-b from-red-50 to-white">
   <div class="container px-5 py-24 mx-auto">
-    <!-- Category Header with Glass Effect -->
-    <div class="flex flex-wrap w-full mb-20 backdrop-blur-sm bg-white/30 rounded-xl p-8 shadow-lg border border-white/20">
-      <div class="lg:w-1/2 w-full mb-6 lg:mb-0">
-        <h1 class="sm:text-4xl text-3xl font-bold mb-4 bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent">
-          {{category.name|capfirst}}
-        </h1>
-        <div class="h-1.5 w-24 bg-gradient-to-r from-red-400 to-red-300 rounded-full animate-slide-right"></div>
-      </div>
-      <p class="lg:w-1/2 w-full text-lg leading-relaxed text-gray-600 mt-4 lg:mt-0">
-        {{category.description|capfirst}}
-      </p>
-    </div>
-
-    <!-- Places Grid -->
     <div class="flex flex-wrap -m-4 justify-center">
       {% for place in places %}
-      <div data-aos="fade-up" class="xl:w-1/4 md:w-1/2 p-4 group">
-        <a href="{% url 'place_detail' place.id %}" class="block transform transition-all duration-300 hover:scale-105">
-          <div class="glass-card bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl p-6 shadow-2xl hover:shadow-red-100/20 transition-all duration-300 h-full">
-            <!-- Image Container with Hover Effect -->
-            <div class="overflow-hidden rounded-lg aspect-video">
-              <img class="w-full h-full object-cover transform transition-all duration-500 hover:scale-110" 
-                   src="{{place.image.url}}" 
-                   alt="{{place.name}}">
+      <a href="{% url 'place_detail' place.id %}">
+        <div data-aos="fade-up" class="xl:w-1/4 md:w-1/2 p-4 group">
+        <div class="glass-card bg-white/20 backdrop-blur-lg border border-white/30 rounded-xl p-6 shadow-2xl hover:shadow-red-100/20 transition-all duration-300 h-full">
+          <!-- Image Container -->
+          <div class="overflow-hidden rounded-lg aspect-video mb-4">
+            <img class="w-full h-full object-cover transform transition-all duration-500 hover:scale-110"
+                 src="{{place.image.url}}"
+                 alt="{{place.name}}">
+          </div>
+
+          <!-- Place Title and Rating -->
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-xl font-semibold text-gray-900">{{place.name}}</h3>
+            <span class="flex-shrink-0 text-red-500 text-sm font-medium px-2 py-1 rounded-full bg-red-50">
+              ★ {{place.rating}}
+            </span>
+          </div>
+
+          <!-- Visit Counter and Buttons -->
+          <div class="flex items-center justify-between mt-4 border-t border-white/20 pt-4">
+            <div class="flex items-center text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/>
+              </svg>
+              <span>{{place.visits|default:0}}</span> visits
             </div>
-            
-            <!-- Content -->
-            <div class="mt-6">
-              <div class="flex items-center mb-3">
-                <h3 class="text-xl font-semibold text-gray-900 mr-3">{{place.name|capfirst}}</h3>
-                <span class="flex-shrink-0 text-red-500 text-sm font-medium px-2 py-1 rounded-full bg-red-50">
-                  ★ {{place.rating}}
-                </span>
-              </div>
-              <p class="text-gray-600 leading-relaxed line-clamp-3">
-                {{place.description|capfirst}}
-              </p>
-              <div class="mt-4 border-t border-white/20 pt-4 flex justify-between items-center">
-                {% comment %} <span class="inline-flex items-center text-red-500 text-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                  </svg>
-                  {{place.location}}
-                </span> {% endcomment %}
-                <button 
-                  onclick="getDirections('{{place.name|addslashes}}')" 
-                  class="directions-btn text-sm bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-3 rounded-lg flex items-center shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                    <path fill-rule="evenodd" d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                  </svg>
-                  Directions
-                </button>
-              </div>
+
+            <div class="flex gap-2">
+                <a href="#" class="hidden"></a>
+              <button
+                onclick="getDirections('{{place.name|addslashes}}')"
+                class="directions-btn text-sm bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-3 rounded-lg flex items-center shadow-md hover:shadow-lg transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10.293 15.707a1 1 0 010-1.414L14.586 10l-4.293-4.293a1 1 0 111.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                  <path fill-rule="evenodd" d="M4.293 15.707a1 1 0 010-1.414L8.586 10 4.293 5.707a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                </svg>
+                Directions
+              </button>
             </div>
           </div>
-        </a>
+        </div>
       </div>
+      </a>
       {% endfor %}
     </div>
   </div>

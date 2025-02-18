@@ -13,6 +13,8 @@ import json
 from huggingface_hub import InferenceClient
 from gtts import gTTS
 import os
+from django.views.decorators.http import require_POST
+from django.db.models import F
 from django.utils.translation import gettext as _
 
 client = InferenceClient(api_key="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")
@@ -171,6 +173,8 @@ chat_client = InferenceClient(api_key="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")
 
 def place_detail(request, pk):
     place = get_object_or_404(Place, pk=pk)
+    Place.objects.filter(id=pk).update(visits=F('visits') + 1)
+    place.refresh_from_db()
     descriptions = Description.objects.filter(place=place)
 
     response_text = ""
@@ -399,5 +403,13 @@ def nobetci_eczaneler(request):
 def directions(request):
 
     return render(request, 'directions.html')
+
+
+@require_POST
+def increment_visits(request, place_id):
+    place = get_object_or_404(Place, id=place_id)
+    place.visits = (place.visits or 0) + 1
+    place.save()
+    return JsonResponse({'visits': place.visits})
 
      
