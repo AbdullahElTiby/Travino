@@ -33,6 +33,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://*',
     'https://f334-91-93-239-182.ngrok-free.app',
     'https://1d3c-91-93-239-182.ngrok-free.app',
+    'https://8ab8-91-93-239-182.ngrok-free.app',
     # Add other trusted origins as needed
 ]
 
@@ -41,6 +42,7 @@ CORS_ORIGIN_WHITELIST = [
     'https://f334-91-93-239-182.ngrok-free.app',
     'https://*',
     'https://1d3c-91-93-239-182.ngrok-free.app',
+    'https://8ab8-91-93-239-182.ngrok-free.app',
     # Add other trusted origins as needed
 ]
 
