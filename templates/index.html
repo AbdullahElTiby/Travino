@@ -37,6 +37,11 @@
         <p class="mb-8 leading-relaxed animate__animated animate__fadeInDown">Discover Turkey like never before with our AI Tour Guide! Enjoy personalized tours, real-time recommendations, and in-depth insights on our site for an exceptional travel experience.</p>
         <div class="flex justify-center md:justify-start">
           <a href="{% url 'about' %}"><button class="inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg animate__animated animate__fadeInDown">Why us?</button></a>
+          <a href="#steps">
+            <button class="ml-4 inline-flex text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg animate__animated animate__fadeInDown">
+              How It Works?
+            </button>
+          </a>
           {% if user.is_authenticated %}
           <a href="{% url 'aitg' %}"><button class="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg animate__animated animate__fadeInDown">Begin exploring</button></a>
           {% else %}
@@ -99,6 +104,166 @@
         </div>
       </div>
     </section>
+    {% comment %} the steps section {% endcomment %}
+    <section id="steps" class="text-gray-600 body-font">
+      <div class="container px-5 py-24 mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16 animate-fade-in-down">
+          <h2 class="sm:text-4xl text-3xl font-bold text-gray-900 mb-4">How Travino Works</h2>
+          <p class="text-base text-gray-600 leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">Follow these simple steps to make the most of your journey through Turkey with Travino as your AI companion.</p>
+        </div>
+        
+        <!-- Steps Container -->
+        <div class="flex flex-wrap w-full">
+          <div class="lg:w-1/2 md:w-full md:pr-10 md:py-6">
+            <!-- Step 1: Sign Up Icon -->
+            <div class="flex relative pb-12 group animate-fade-in-left" style="animation-delay: 200ms;">
+              <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+              </div>
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500 inline-flex items-center justify-center text-white relative z-10 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                  <circle cx="9" cy="7" r="4"/>
+                  <line x1="19" y1="8" x2="19" y2="14"/>
+                  <line x1="22" y1="11" x2="16" y2="11"/>
+                </svg>
+              </div>
+              <div class="flex-grow pl-4">
+                <h2 class="font-bold text-lg text-gray-900 mb-1 tracking-wider group-hover:text-red-500 transition-colors duration-300">Create Your Account</h2>
+                <p class="leading-relaxed">Get started by <a href="{% url 'signup' %}" class="text-red-500 hover:text-red-600 font-medium">creating your account</a> to unlock all of Travino's features and personalized recommendations.</p>
+              </div>
+            </div>
+    
+            <!-- Step 2: Explore Icon -->
+            <div class="flex relative pb-12 group animate-fade-in-left" style="animation-delay: 400ms;">
+              <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+              </div>
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500 inline-flex items-center justify-center text-white relative z-10 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+                </svg>
+              </div>
+              <div class="flex-grow pl-4">
+                <h2 class="font-bold text-lg text-gray-900 mb-1 tracking-wider group-hover:text-red-500 transition-colors duration-300">Explore Turkey</h2>
+                <p class="leading-relaxed">Begin your journey through <a href="{% url 'tr_in_blocks' %}" class="text-red-500 hover:text-red-600 font-medium">TR in blocks</a> - your comprehensive guide to Turkey's regions, cities, and hidden gems.</p>
+              </div>
+            </div>
+    
+            <!-- Step 3: AI Chat Icon -->
+            <div class="flex relative pb-12 group animate-fade-in-left" style="animation-delay: 600ms;">
+              <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+              </div>
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500 inline-flex items-center justify-center text-white relative z-10 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  <circle cx="12" cy="10" r="2"/>
+                  <path d="m16 10-1.5-1.5"/>
+                  <path d="m8 10 1.5-1.5"/>
+                </svg>
+              </div>
+              <div class="flex-grow pl-4">
+                <h2 class="font-bold text-lg text-gray-900 mb-1 tracking-wider group-hover:text-red-500 transition-colors duration-300">Chat with Travino</h2>
+                <p class="leading-relaxed">Connect with <a href="{% url 'aitg' %}" class="text-red-500 hover:text-red-600 font-medium">your AI tour guide</a> for personalized trip planning, local insights, and travel recommendations.</p>
+              </div>
+            </div>
+    
+            <!-- Step 4: Planning Icon -->
+            <div class="flex relative pb-12 group animate-fade-in-left" style="animation-delay: 800ms;">
+              <div class="h-full w-10 absolute inset-0 flex items-center justify-center">
+                <div class="h-full w-1 bg-gray-200 pointer-events-none"></div>
+              </div>
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500 inline-flex items-center justify-center text-white relative z-10 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+                  <path d="m9 9 5 5"/>
+                  <path d="m14 9-5 5"/>
+                </svg>
+              </div>
+              <div class="flex-grow pl-4">
+                <h2 class="font-bold text-lg text-gray-900 mb-1 tracking-wider group-hover:text-red-500 transition-colors duration-300">Plan Your Trip</h2>
+                <p class="leading-relaxed">Use our <a href="{% url 'directions' %}" class="text-red-500 hover:text-red-600 font-medium">directions page</a>, find <a href="{% url 'hotel_booking_page' %}" class="text-red-500 hover:text-red-600 font-medium">hotels</a>, and locate <a href="{% url 'nobetci_eczaneler' %}" class="text-red-500 hover:text-red-600 font-medium">emergency services</a> for a worry-free journey.</p>
+              </div>
+            </div>
+    
+            <!-- Final Step: Adventure Icon -->
+            <div class="flex relative group animate-fade-in-left" style="animation-delay: 1000ms;">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-red-500 inline-flex items-center justify-center text-white relative z-10 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3a6 6 0 0 0-6 6c0 7 6 11 6 11s6-4 6-11a6 6 0 0 0-6-6Z"/>
+                  <circle cx="12" cy="9" r="2"/>
+                </svg>
+              </div>
+              <div class="flex-grow pl-4">
+                <h2 class="font-bold text-lg text-gray-900 mb-1 tracking-wider group-hover:text-red-500 transition-colors duration-300">Begin Your Adventure</h2>
+                <p class="leading-relaxed">You're all set! Start exploring Turkey with confidence, knowing Travino is here to help every step of the way.</p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Right side image -->
+          <div class="lg:w-1/2 md:w-full mt-12 lg:mt-0 animate-fade-in-right">
+            <div class="rounded-lg overflow-hidden shadow-xl transform hover:scale-105 transition-transform duration-300">
+              <img class="object-cover object-center w-full h-full" src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2106&q=80" alt="Turkey Landscape">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Add this style section to your head or stylesheet -->
+    <style>
+      @keyframes fade-in-down {
+        0% {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    
+      @keyframes fade-in-left {
+        0% {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    
+      @keyframes fade-in-right {
+        0% {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    
+      .animate-fade-in-down {
+        animation: fade-in-down 0.5s ease-out forwards;
+      }
+    
+      .animate-fade-in-left {
+        opacity: 0;
+        animation: fade-in-left 0.5s ease-out forwards;
+      }
+    
+      .animate-fade-in-right {
+        opacity: 0;
+        animation: fade-in-right 0.5s ease-out forwards;
+        animation-delay: 1200ms;
+      }
+    </style>
   </section>
 
 
