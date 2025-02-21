@@ -115,15 +115,15 @@
              alt="{{place.name}}">
       </div>
 
-      <form method="POST" class="mb-8">
+      <form method="POST" id="descriptionForm" class="mb-8">
         {% csrf_token %}
         <textarea hidden name="user_input">Talk about {{ place.name }}</textarea>
-        <button type="submit" class="submit-btn">
+        <button type="submit" class="submit-btn" id="submitBtn">
           Generate The Description
         </button>
       </form>
 
-      <div id="loading-spinner" style="display: none;">
+      <div id="loading-spinner" class="hidden">
         <div class="spinner"></div>
         <p class="mt-4 text-gray-600 font-medium">Generating the description for you...</p>
       </div>
@@ -153,14 +153,29 @@
 </section>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("descriptionForm");
     const loadingSpinner = document.getElementById("loading-spinner");
+    const submitButton = document.getElementById("submitBtn");
 
-    form.addEventListener("submit", function () {
-        loadingSpinner.style.display = "block";
-        document.querySelector('.submit-btn').disabled = true;
-    });
+    // Store the form's original onsubmit (if any)
+    const originalOnSubmit = form.onsubmit;
+
+    form.onsubmit = function(e) {
+        // Show loading spinner
+        loadingSpinner.classList.remove("hidden");
+        loadingSpinner.classList.add("block");
+        
+        // Disable submit button
+        submitButton.disabled = true;
+        submitButton.classList.add("opacity-50", "cursor-not-allowed");
+
+        // Call original onsubmit if it exists
+        if (originalOnSubmit) {
+            return originalOnSubmit.call(this, e);
+        }
+        return true;
+    };
 
     // Add audio player customization
     const audioElements = document.querySelectorAll('audio');
