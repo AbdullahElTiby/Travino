@@ -28,10 +28,9 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=128, default='defaultpassword')
     nationality = models.CharField(max_length=100, default='Not specified')
-    free_plan = models.BooleanField(default=True)
-    without_ads = models.BooleanField(default=False)
+    starter_plan = models.BooleanField(default=True)
     premium_plan = models.BooleanField(default=False) 
-
+    all_stars_plan = models.BooleanField(default=False)
     def __str__(self):
         return self.username
     

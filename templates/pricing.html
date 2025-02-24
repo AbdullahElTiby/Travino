@@ -20,7 +20,7 @@
                 Pricing Plans
             </h1>
             <p class="lg:w-2/3 mx-auto leading-relaxed text-gray-600 text-lg animate-fade-in-up delay-100">
-                Choose your perfect plan. <span class="text-red-500">30-day money-back guarantee</span>
+                Choose your perfect plan. <span class="text-red-500">24 hours money-back guarantee</span>
             </p>
 
             <!-- Enhanced toggle with sliding animation -->
@@ -28,10 +28,10 @@
                 <div class="relative flex">
                     <button 
                         class="relative z-10 px-6 py-2 text-sm font-medium transition-all duration-300"
-                        id="monthly"
-                        @click="togglePlan('monthly')"
+                        id="weekly"
+                        @click="togglePlan('weekly')"
                     >
-                        Monthly
+                        Weekly
                     </button>
                     <button 
                         class="relative z-10 px-6 py-2 text-sm font-medium transition-all duration-300"
@@ -50,11 +50,11 @@
         </div>
 
         <div class="flex flex-wrap -m-4 justify-center">
-            <!-- Pricing Card - START -->
+            <!-- Pricing Card - Starter -->
             <div class="p-4 xl:w-1/4 md:w-1/2 w-full transform transition-all duration-500 hover:scale-105">
                 <div class="h-full p-6 rounded-xl bg-white/30 backdrop-blur-lg border border-white/40 shadow-xl hover:shadow-2xl transition-all duration-300">
                     <div class="mb-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-2">Starter</h2>
+                        <h2 class="text-lg font-semibold text-gray-900 mb-2">Starter Plan</h2>
                         <p class="text-4xl font-bold text-gray-900 mb-4">
                             Free
                         </p>
@@ -64,9 +64,20 @@
                             <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-gray-600">Basic Features</span>
+                            <span class="text-gray-600">With ads</span>
                         </li>
-                        <!-- Add more list items -->
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-600">Normal Tour Guide Ai Model</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-600">Longer response time</span>
+                        </li>
                     </ul>
                     <button class="w-full py-3 px-6 rounded-lg bg-white border-2 border-red-500 text-red-500 font-semibold hover:bg-red-500 hover:text-white transition-all duration-300">
                         Get Started
@@ -74,34 +85,81 @@
                 </div>
             </div>
 
-            <!-- Pricing Card - PRO (Popular) -->
+            <!-- Pricing Card - Professional -->
             <div class="p-4 xl:w-1/4 md:w-1/2 w-full transform transition-all duration-500 hover:scale-105">
                 <div class="h-full p-6 rounded-xl bg-red-500/10 backdrop-blur-lg border-2 border-red-500/30 shadow-2xl relative overflow-hidden hover:shadow-3xl transition-all duration-300">
-                    <div class="absolute top-0 right-0 px-4 py-1 bg-red-500 text-white text-xs font-bold rounded-bl-lg">
+                    {% comment %} <div class="absolute top-0 right-0 px-4 py-1 bg-red-500 text-white text-xs font-bold rounded-bl-lg">
                         MOST POPULAR
-                    </div>
+                    </div> {% endcomment %}
                     <div class="mb-6">
-                        <h2 class="text-lg font-semibold text-gray-900 mb-2">Professional</h2>
+                        <h2 class="text-lg font-semibold text-gray-900 mb-2">Premium Plan</h2>
                         <p class="text-4xl font-bold text-gray-900 mb-4">
-                            $29<span class="text-lg text-gray-600">/mo</span>
+                            $2<span class="text-lg text-gray-600">/week</span>
                         </p>
                     </div>
                     <ul class="space-y-3 mb-8">
                         <li class="flex items-center">
-                            <svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
-                            <span class="text-gray-600">Advanced Features</span>
+                            <span class="text-gray-600">Without ads</span>
                         </li>
-                        <!-- Add more list items -->
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-600">Normal Tour Guide Ai Model</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-600">Longer response time</span>
+                        </li>
                     </ul>
                     <button class="w-full py-3 px-6 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 transform hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl">
-                        Start Free Trial
+                        Subscribe
                     </button>
                 </div>
             </div>
 
-            <!-- Add other pricing cards following similar structure -->
+            <!-- Pricing Card - Enterprise -->
+            <div class="p-4 xl:w-1/4 md:w-1/2 w-full transform transition-all duration-500 hover:scale-105">
+                <div class="h-full p-6 rounded-xl bg-red-500/10 backdrop-blur-lg border-2 border-red-500/30 shadow-2xl relative overflow-hidden hover:shadow-3xl transition-all duration-300">
+                    {% comment %} <div class="absolute top-0 right-0 px-4 py-1 bg-red-500 text-white text-xs font-bold rounded-bl-lg">
+                        MOST POPULAR
+                    </div> {% endcomment %}
+                    <div class="mb-6">
+                        <h2 class="text-lg font-semibold text-gray-900 mb-2">All Stars Plan</h2>
+                        <p class="text-4xl font-bold text-gray-900 mb-4">
+                            $5<span class="text-lg text-gray-600">/week</span>
+                        </p>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-600">Without ads</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-600">Super Tour Guide AGI Model</span>
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                            </svg>
+                            <span class="text-gray-600">Instant response time</span>
+                        </li>
+                    </ul>
+                    <button class="w-full py-3 px-6 rounded-lg bg-red-500 text-white font-semibold hover:bg-red-600 transform hover:-translate-y-1 transition-all duration-300 shadow-lg hover:shadow-xl">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -132,17 +190,17 @@
 <script>
     function togglePlan(plan) {
         const toggleSlider = document.getElementById('toggleSlider');
-        const monthlyBtn = document.getElementById('monthly');
+        const weeklyBtn = document.getElementById('weekly');
         const annuallyBtn = document.getElementById('annually');
         
-        if (plan === 'monthly') {
+        if (plan === 'weekly') {
             toggleSlider.style.transform = 'translateX(0%)';
-            monthlyBtn.classList.add('text-white');
+            weeklyBtn.classList.add('text-white');
             annuallyBtn.classList.remove('text-white');
         } else {
             toggleSlider.style.transform = 'translateX(100%)';
             annuallyBtn.classList.add('text-white');
-            monthlyBtn.classList.remove('text-white');
+            weeklyBtn.classList.remove('text-white');
         }
     }
 </script>
